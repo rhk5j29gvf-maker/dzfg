@@ -1,4 +1,3 @@
-[六合彩选号助手.html](https://github.com/user-attachments/files/23486390/default.html)
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
