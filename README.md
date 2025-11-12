@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>六合彩选号助手</title>
+    <title>六合彩智能选号助手 - 专业号码分析工具</title>
+    <meta name="description" content="专业的六合彩选号助手，提供智能组号、号码分析、历史数据参考等功能">
     <style>
         * {
             box-sizing: border-box;
@@ -13,11 +14,11 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
-            padding: 0;
-            line-height: 1.5;
+            line-height: 1.6;
+            min-height: 100vh;
         }
         
         .container {
@@ -27,41 +28,44 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
         
-        /* 顶部标题栏 */
         .header {
-            background: linear-gradient(to right, #e53935, #d32f2f);
+            background: linear-gradient(135deg, #e53935, #d32f2f);
             color: white;
             text-align: center;
-            padding: 12px 15px;
+            padding: 15px 20px;
             position: relative;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
         .header h1 {
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
         
-        /* 数字选择区域 */
         .section {
-            margin-bottom: 10px;
+            margin-bottom: 0;
         }
         
         .section-title {
-            background-color: #f0f0f0;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            color: #666;
-            border-bottom: 1px solid #e0e0e0;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+            font-weight: 600;
         }
         
         .number-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-            padding: 8px;
+            gap: 5px;
+            padding: 10px;
+            background: #fafafa;
         }
         
         .number-item {
@@ -72,229 +76,142 @@
             aspect-ratio: 1;
             border-radius: 50%;
             font-weight: bold;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             user-select: none;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             position: relative;
-            padding: 3px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .number-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .number-item:hover::before {
+            left: 100%;
         }
         
         .number-item.red {
-            background: radial-gradient(circle at 30% 30%, #ff5252, #d32f2f);
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #d32f2f);
             color: white;
         }
         
         .number-item.blue {
-            background: radial-gradient(circle at 30% 30%, #448aff, #2962ff);
+            background: radial-gradient(circle at 30% 30%, #74b9ff, #0984e3);
             color: white;
         }
         
         .number-item.green {
-            background: radial-gradient(circle at 30% 30%, #4caf50, #2e7d32);
+            background: radial-gradient(circle at 30% 30%, #55efc4, #00b894);
             color: white;
         }
         
         .number-item.selected {
-            box-shadow: 0 0 0 2px #ff9800, 0 0 10px rgba(255, 152, 0, 0.7);
+            box-shadow: 0 0 0 3px #ff9800, 0 0 20px rgba(255, 152, 0, 0.6);
             transform: scale(0.95);
+            animation: pulse 2s infinite;
         }
         
         .number-item.hidden {
             opacity: 0.3;
-            filter: grayscale(0.8);
+            filter: grayscale(1);
+            transform: scale(0.85);
         }
         
         .zodiac-label {
             font-size: 0.5rem;
-            margin-top: 1px;
+            margin-top: 2px;
             font-weight: normal;
+            opacity: 0.9;
         }
         
-        /* 杀号区 */
-        .kill-section {
-            background: #fff8e1;
-            border: 1px solid #ffd54f;
-            border-radius: 6px;
-            margin: 8px;
-            padding: 8px;
+        .stats-section {
+            background: #fff3e0;
+            border: 1px solid #ffb74d;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 12px;
+            display: none;
         }
         
-        .kill-title {
+        .stats-title {
             font-size: 0.85rem;
             font-weight: bold;
-            margin-bottom: 6px;
-            color: #ff9800;
-        }
-        
-        .kill-numbers-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        
-        .kill-number {
-            background: linear-gradient(135deg, #ff9800, #f57c00);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-        
-        /* 已选号码区域 */
-        .selected-numbers-section {
-            background: #e8f5e9;
-            border: 1px solid #4caf50;
-            border-radius: 6px;
-            margin: 8px;
-            padding: 8px;
-        }
-        
-        .selected-numbers-title {
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 6px;
-            color: #2e7d32;
-        }
-        
-        .selected-numbers-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        
-        .selected-number {
-            color: white;
-            padding: 4px 8px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-        
-        .selected-number.red {
-            background: linear-gradient(135deg, #ff5252, #d32f2f);
-        }
-        
-        .selected-number.blue {
-            background: linear-gradient(135deg, #448aff, #2962ff);
-        }
-        
-        .selected-number.green {
-            background: linear-gradient(135deg, #4caf50, #2e7d32);
-        }
-        
-        /* 隐藏号码区域 */
-        .hidden-numbers-section {
-            background: #f5f5f5;
-            border: 1px solid #bdbdbd;
-            border-radius: 6px;
-            margin: 8px;
-            padding: 8px;
-        }
-        
-        .hidden-numbers-title {
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 6px;
-            color: #616161;
-        }
-        
-        .hidden-numbers-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        
-        .hidden-number {
-            background: linear-gradient(135deg, #9e9e9e, #757575);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-        
-        /* 结果区域 */
-        .result-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid #e0e0e0;
-        }
-        
-        .result-title {
-            background-color: #f0f0f0;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            color: #666;
+            margin-bottom: 8px;
+            color: #f57c00;
             display: flex;
             justify-content: space-between;
-        }
-        
-        .result-content {
-            flex: 1;
-            padding: 12px;
-            background: #f9f9f9;
-            overflow-y: auto;
-            min-height: 120px;
-        }
-        
-        .result-group {
-            margin-bottom: 10px;
-            padding: 8px;
-            background: white;
-            border-radius: 6px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .result-numbers {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
             align-items: center;
         }
         
-        .result-number {
-            background: #f0f0f0;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 0.75rem;
+        .stats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
         }
         
-        /* 底部操作栏 */
+        .stat-item {
+            background: linear-gradient(135deg, #ffb74d, #f57c00);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
         .action-bar {
             display: flex;
-            padding: 8px;
+            padding: 10px;
             gap: 8px;
             background: white;
             border-top: 1px solid #e0e0e0;
+            flex-wrap: wrap;
         }
         
         .action-btn {
             flex: 1;
-            padding: 10px;
+            min-width: 120px;
+            padding: 12px 15px;
             text-align: center;
-            border-radius: 5px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            border: none;
             font-size: 0.85rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: all 0.3s;
+            transform: translate(-50%, -50%);
+        }
+        
+        .action-btn:active::before {
+            width: 100px;
+            height: 100px;
         }
         
         .clear-btn {
-            background: #f0f0f0;
-            color: #666;
-        }
-        
-        .copy-btn {
-            background: linear-gradient(135deg, #4caf50, #2e7d32);
-            color: white;
-        }
-        
-        .copy-selected-btn {
-            background: linear-gradient(135deg, #2196f3, #1976d2);
+            background: linear-gradient(135deg, #78909c, #546e7a);
             color: white;
         }
         
@@ -303,443 +220,604 @@
             color: white;
         }
         
-        /* 响应式调整 */
+        .copy-btn {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+        }
+        
+        .analysis-btn {
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+            color: white;
+        }
+        
+        .result-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .result-header {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .result-content {
+            flex: 1;
+            padding: 15px;
+            background: #f8f9fa;
+            overflow-y: auto;
+            min-height: 200px;
+        }
+        
+        .result-group {
+            background: white;
+            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #74b9ff;
+            transition: transform 0.3s;
+        }
+        
+        .result-group:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .result-numbers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .result-number {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .result-number.special {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+        
+        .empty-result {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 3px #ff9800, 0 0 20px rgba(255, 152, 0, 0.6); }
+            50% { box-shadow: 0 0 0 5px #ff9800, 0 0 30px rgba(255, 152, 0, 0.8); }
+            100% { box-shadow: 0 0 0 3px #ff9800, 0 0 20px rgba(255, 152, 0, 0.6); }
+        }
+        
         @media (max-width: 480px) {
             .number-grid {
                 grid-template-columns: repeat(7, 1fr);
-                gap: 3px;
-                padding: 6px;
+                gap: 4px;
+                padding: 8px;
             }
             
             .number-item {
                 font-size: 0.7rem;
             }
             
-            .zodiac-label {
-                font-size: 0.45rem;
-            }
-            
             .action-bar {
-                flex-wrap: wrap;
+                flex-direction: column;
             }
             
             .action-btn {
-                flex: 1 0 45%;
-                margin: 2px;
+                min-width: auto;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 顶部标题栏 -->
         <div class="header">
-            <h1>挑码助手</h1>
+            <h1>🎯 六合彩智能选号助手</h1>
         </div>
         
-        <!-- 数字选择区域 -->
         <div class="section">
-            <div class="section-title">选择号码 (1-49)</div>
+            <div class="section-title">🎲 选择号码 (1-49)</div>
             <div class="number-grid" id="numberGrid"></div>
         </div>
         
-        <!-- 杀号区 -->
-        <div class="kill-section" id="killSection" style="display: none;">
-            <div class="kill-title">杀号区 (不需要的号码)</div>
-            <div class="kill-numbers-grid" id="killNumbersGrid"></div>
-        </div>
-        
-        <!-- 已选号码区域 -->
-        <div class="selected-numbers-section" id="selectedNumbersSection" style="display: none;">
-            <div class="selected-numbers-title">已选号码</div>
-            <div class="selected-numbers-grid" id="selectedNumbersGrid"></div>
-        </div>
-        
-        <!-- 隐藏号码区域 -->
-        <div class="hidden-numbers-section" id="hiddenNumbersSection" style="display: none;">
-            <div class="hidden-numbers-title">隐藏号码</div>
-            <div class="hidden-numbers-grid" id="hiddenNumbersGrid"></div>
-        </div>
-        
-        <!-- 操作按钮 -->
-        <div class="action-bar">
-            <div class="action-btn clear-btn" id="clearBtn">清空</div>
-            <div class="action-btn copy-selected-btn" id="copySelectedBtn">复制已选</div>
-            <div class="action-btn copy-btn" id="copyResultBtn">复制组号</div>
+        <div class="stats-section" id="statsSection">
+            <div class="stats-title">
+                <span>📊 当前统计</span>
+                <span id="selectedCount">已选: 0 个</span>
+            </div>
+            <div class="stats-grid" id="statsGrid"></div>
         </div>
         
         <div class="action-bar">
-            <div class="action-btn generate-btn" id="generate5">生成5组</div>
-            <div class="action-btn generate-btn" id="generate10">生成10组</div>
-            <div class="action-btn generate-btn" id="generate20">生成20组</div>
+            <button class="action-btn clear-btn" id="clearBtn">🗑️ 清空</button>
+            <button class="action-btn analysis-btn" id="analyzeBtn">📈 分析</button>
+            <button class="action-btn generate-btn" id="generate5">🎲 生成5组</button>
         </div>
         
-        <!-- 结果展示区域 -->
+        <div class="action-bar">
+            <button class="action-btn generate-btn" id="generate10">🎯 生成10组</button>
+            <button class="action-btn generate-btn" id="generate20">🔥 生成20组</button>
+            <button class="action-btn copy-btn" id="copyResultBtn">📋 复制结果</button>
+        </div>
+        
         <div class="result-section">
-            <div class="result-title">
-                <span>组号结果</span>
-                <span id="selectedCount">已选: 0 个号码</span>
+            <div class="result-header">
+                <span>📋 组号结果</span>
+                <span id="resultCount">共 0 组</span>
             </div>
             <div class="result-content" id="resultContent">
-                <p style="text-align: center; color: #999; padding: 20px;">请选择号码，然后点击上方按钮生成组号</p>
+                <div class="empty-result">
+                    <p>🎯 请选择号码，然后点击生成按钮</p>
+                    <p style="font-size: 0.8rem; margin-top: 10px; color: #ccc;">建议选择6-15个号码获得最佳效果</p>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const numberGrid = document.getElementById('numberGrid');
-            const resultContent = document.getElementById('resultContent');
-            const selectedCount = document.getElementById('selectedCount');
-            const clearBtn = document.getElementById('clearBtn');
-            const copySelectedBtn = document.getElementById('copySelectedBtn');
-            const copyResultBtn = document.getElementById('copyResultBtn');
-            const generate5 = document.getElementById('generate5');
-            const generate10 = document.getElementById('generate10');
-            const generate20 = document.getElementById('generate20');
-            const selectedNumbersSection = document.getElementById('selectedNumbersSection');
-            const selectedNumbersGrid = document.getElementById('selectedNumbersGrid');
-            const killSection = document.getElementById('killSection');
-            const killNumbersGrid = document.getElementById('killNumbersGrid');
-            const hiddenNumbersSection = document.getElementById('hiddenNumbersSection');
-            const hiddenNumbersGrid = document.getElementById('hiddenNumbersGrid');
+            // 初始化变量
+            const elements = {
+                numberGrid: document.getElementById('numberGrid'),
+                resultContent: document.getElementById('resultContent'),
+                selectedCount: document.getElementById('selectedCount'),
+                resultCount: document.getElementById('resultCount'),
+                statsSection: document.getElementById('statsSection'),
+                statsGrid: document.getElementById('statsGrid'),
+                clearBtn: document.getElementById('clearBtn'),
+                analyzeBtn: document.getElementById('analyzeBtn'),
+                copyResultBtn: document.getElementById('copyResultBtn'),
+                generate5: document.getElementById('generate5'),
+                generate10: document.getElementById('generate10'),
+                generate20: document.getElementById('generate20')
+            };
             
-            // 存储选中的数字和杀号
             let selectedNumbers = new Set();
             let killNumbers = new Set();
             let hiddenNumbers = new Set();
+            let currentResults = [];
             
-            // 生肖与号码对应关系
-            const zodiacNumbers = {
-                '鼠': [6, 18, 30, 42],
-                '牛': [5, 17, 29, 41],
-                '虎': [4, 16, 28, 40],
-                '兔': [3, 15, 27, 39],
-                '龙': [2, 14, 26, 38],
-                '蛇': [1, 13, 25, 37, 49],
-                '马': [12, 24, 36, 48],
-                '羊': [11, 23, 35, 47],
-                '猴': [10, 22, 34, 46],
-                '鸡': [9, 21, 33, 45],
-                '狗': [8, 20, 32, 44],
-                '猪': [7, 19, 31, 43]
+            // 配置数据
+            const config = {
+                colors: {
+                    red: [1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46],
+                    blue: [3, 4, 9, 10, 14, 15, 20, 25, 26, 31, 36, 37, 41, 42, 47, 48],
+                    green: [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49]
+                },
+                zodiacs: {
+                    '鼠': [6, 18, 30, 42], '牛': [5, 17, 29, 41], '虎': [4, 16, 28, 40],
+                    '兔': [3, 15, 27, 39], '龙': [2, 14, 26, 38], '蛇': [1, 13, 25, 37, 49],
+                    '马': [12, 24, 36, 48], '羊': [11, 23, 35, 47], '猴': [10, 22, 34, 46],
+                    '鸡': [9, 21, 33, 45], '狗': [8, 20, 32, 44], '猪': [7, 19, 31, 43]
+                }
             };
             
-            // 号码与生肖对应关系
-            const numberZodiacs = {};
-            for (const [zodiac, numbers] of Object.entries(zodiacNumbers)) {
-                numbers.forEach(num => {
-                    numberZodiacs[num] = zodiac;
-                });
+            // 初始化号码网格
+            function initializeNumberGrid() {
+                elements.numberGrid.innerHTML = '';
+                
+                for (let i = 1; i <= 49; i++) {
+                    const numberItem = createNumberItem(i);
+                    elements.numberGrid.appendChild(numberItem);
+                }
             }
             
-            // 波色对应关系
-            const colorNumbers = {
-                'red': [1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46],
-                'blue': [3, 4, 9, 10, 14, 15, 20, 25, 26, 31, 36, 37, 41, 42, 47, 48],
-                'green': [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49]
-            };
-            
-            // 创建1-49的数字
-            for (let i = 1; i <= 49; i++) {
-                const numberItem = document.createElement('div');
-                numberItem.className = 'number-item';
+            // 创建号码元素
+            function createNumberItem(number) {
+                const item = document.createElement('div');
+                item.className = 'number-item';
                 
                 // 设置颜色
-                if (colorNumbers.red.includes(i)) {
-                    numberItem.classList.add('red');
-                } else if (colorNumbers.blue.includes(i)) {
-                    numberItem.classList.add('blue');
-                } else if (colorNumbers.green.includes(i)) {
-                    numberItem.classList.add('green');
-                }
+                if (config.colors.red.includes(number)) item.classList.add('red');
+                else if (config.colors.blue.includes(number)) item.classList.add('blue');
+                else if (config.colors.green.includes(number)) item.classList.add('green');
                 
-                // 创建数字和生肖标签
-                const numberSpan = document.createElement('span');
-                numberSpan.textContent = i.toString().padStart(2, '0');
+                // 设置生肖
+                const zodiac = Object.keys(config.zodiacs).find(z => 
+                    config.zodiacs[z].includes(number)
+                ) || '';
                 
-                const zodiacSpan = document.createElement('span');
-                zodiacSpan.className = 'zodiac-label';
-                zodiacSpan.textContent = numberZodiacs[i] || '';
+                item.innerHTML = `
+                    <span>${number.toString().padStart(2, '0')}</span>
+                    <span class="zodiac-label">${zodiac}</span>
+                `;
                 
-                numberItem.appendChild(numberSpan);
-                numberItem.appendChild(zodiacSpan);
+                item.dataset.number = number;
+                setupNumberInteractions(item);
                 
-                numberItem.dataset.number = i;
-                
-                // 双击隐藏号码
+                return item;
+            }
+            
+            // 设置号码交互
+            function setupNumberInteractions(item) {
                 let clickTimer = null;
-                numberItem.addEventListener('click', function() {
+                
+                item.addEventListener('click', function() {
                     if (clickTimer) {
                         clearTimeout(clickTimer);
-                        // 双击事件 - 隐藏号码
-                        const num = parseInt(this.dataset.number);
-                        if (!hiddenNumbers.has(num)) {
-                            hiddenNumbers.add(num);
-                            selectedNumbers.delete(num);
-                            killNumbers.delete(num);
-                            this.classList.add('hidden');
-                            this.classList.remove('selected');
-                        } else {
-                            hiddenNumbers.delete(num);
-                            this.classList.remove('hidden');
-                        }
-                        updateSelectedCount();
-                        updateSelectedNumbersDisplay();
-                        updateKillNumbersDisplay();
-                        updateHiddenNumbersDisplay();
+                        handleDoubleClick(this);
                         clickTimer = null;
                     } else {
                         clickTimer = setTimeout(() => {
-                            // 单击事件 - 选择号码
-                            const num = parseInt(this.dataset.number);
-                            if (hiddenNumbers.has(num) || killNumbers.has(num)) {
-                                return; // 隐藏或杀号区的号码不能直接选择
-                            }
-                            
-                            if (selectedNumbers.has(num)) {
-                                selectedNumbers.delete(num);
-                                this.classList.remove('selected');
-                            } else {
-                                selectedNumbers.add(num);
-                                this.classList.add('selected');
-                            }
-                            updateSelectedCount();
-                            updateSelectedNumbersDisplay();
+                            handleSingleClick(this);
                             clickTimer = null;
                         }, 300);
                     }
                 });
                 
-                // 长按添加到杀号区
-                let longPressTimer;
-                numberItem.addEventListener('touchstart', function(e) {
-                    longPressTimer = setTimeout(() => {
-                        const num = parseInt(this.dataset.number);
-                        if (!killNumbers.has(num)) {
-                            killNumbers.add(num);
-                            selectedNumbers.delete(num);
-                            hiddenNumbers.delete(num);
-                            this.classList.add('hidden');
-                            this.classList.remove('selected');
-                        } else {
-                            killNumbers.delete(num);
-                            this.classList.remove('hidden');
-                        }
-                        updateSelectedCount();
-                        updateSelectedNumbersDisplay();
-                        updateKillNumbersDisplay();
-                        updateHiddenNumbersDisplay();
+                // 触摸事件
+                let touchTimer;
+                item.addEventListener('touchstart', function(e) {
+                    touchTimer = setTimeout(() => {
+                        handleLongPress(this);
                         e.preventDefault();
                     }, 500);
                 });
                 
-                numberItem.addEventListener('touchend', function() {
-                    clearTimeout(longPressTimer);
-                });
-                
-                numberItem.addEventListener('touchmove', function() {
-                    clearTimeout(longPressTimer);
-                });
-                
-                numberGrid.appendChild(numberItem);
+                item.addEventListener('touchend', () => clearTimeout(touchTimer));
+                item.addEventListener('touchmove', () => clearTimeout(touchTimer));
             }
             
-            // 更新已选号码显示
-            function updateSelectedNumbersDisplay() {
-                selectedNumbersGrid.innerHTML = '';
+            // 处理单击
+            function handleSingleClick(element) {
+                const num = parseInt(element.dataset.number);
+                if (killNumbers.has(num) || hiddenNumbers.has(num)) return;
                 
-                if (selectedNumbers.size === 0) {
-                    selectedNumbersSection.style.display = 'none';
+                if (selectedNumbers.has(num)) {
+                    selectedNumbers.delete(num);
+                    element.classList.remove('selected');
+                } else {
+                    selectedNumbers.add(num);
+                    element.classList.add('selected');
+                }
+                updateDisplay();
+            }
+            
+            // 处理双击
+            function handleDoubleClick(element) {
+                const num = parseInt(element.dataset.number);
+                if (!hiddenNumbers.has(num)) {
+                    hiddenNumbers.add(num);
+                    selectedNumbers.delete(num);
+                    killNumbers.delete(num);
+                    element.classList.add('hidden');
+                    element.classList.remove('selected');
+                } else {
+                    hiddenNumbers.delete(num);
+                    element.classList.remove('hidden');
+                }
+                updateDisplay();
+            }
+            
+            // 处理长按
+            function handleLongPress(element) {
+                const num = parseInt(element.dataset.number);
+                if (!killNumbers.has(num)) {
+                    killNumbers.add(num);
+                    selectedNumbers.delete(num);
+                    hiddenNumbers.delete(num);
+                    element.classList.add('hidden');
+                    element.classList.remove('selected');
+                } else {
+                    killNumbers.delete(num);
+                    element.classList.remove('hidden');
+                }
+                updateDisplay();
+            }
+            
+            // 更新显示
+            function updateDisplay() {
+                updateStats();
+                updateResultsCount();
+            }
+            
+            // 更新统计信息
+            function updateStats() {
+                elements.selectedCount.textContent = `已选: ${selectedNumbers.size} 个`;
+                elements.statsSection.style.display = selectedNumbers.size > 0 ? 'block' : 'none';
+                
+                if (selectedNumbers.size === 0) return;
+                
+                const stats = {
+                    '红波': 0, '蓝波': 0, '绿波': 0,
+                    '总号码': selectedNumbers.size
+                };
+                
+                selectedNumbers.forEach(num => {
+                    if (config.colors.red.includes(num)) stats['红波']++;
+                    else if (config.colors.blue.includes(num)) stats['蓝波']++;
+                    else if (config.colors.green.includes(num)) stats['绿波']++;
+                });
+                
+                elements.statsGrid.innerHTML = Object.entries(stats)
+                    .map(([key, value]) => 
+                        `<div class="stat-item">${key}: ${value}</div>`
+                    ).join('');
+            }
+            
+            // 更新结果计数
+            function updateResultsCount() {
+                elements.resultCount.textContent = `共 ${currentResults.length} 组`;
+            }
+            
+            // 生成组号 - 增强随机性版本
+            function generateGroups(count) {
+                if (selectedNumbers.size < 3) {
+                    showMessage('请至少选择3个号码', 'error');
                     return;
                 }
                 
-                selectedNumbersSection.style.display = 'block';
+                const availableNumbers = Array.from(selectedNumbers)
+                    .filter(num => !killNumbers.has(num) && !hiddenNumbers.has(num));
                 
-                // 显示已选号码，保持对应颜色
-                Array.from(selectedNumbers).sort((a, b) => a - b).forEach(num => {
-                    const selectedNumber = document.createElement('div');
-                    selectedNumber.className = 'selected-number';
+                if (availableNumbers.length < 3) {
+                    showMessage('可用号码不足3个', 'error');
+                    return;
+                }
+                
+                const results = [];
+                const usedCombinations = new Set();
+                const numberUsage = new Map();
+                
+                // 初始化使用次数
+                availableNumbers.forEach(num => numberUsage.set(num, 0));
+                
+                for (let i = 0; i < count; i++) {
+                    let group;
+                    let attempts = 0;
+                    const maxAttempts = 100;
                     
-                    // 根据号码颜色设置样式
-                    if (colorNumbers.red.includes(num)) {
-                        selectedNumber.classList.add('red');
-                    } else if (colorNumbers.blue.includes(num)) {
-                        selectedNumber.classList.add('blue');
-                    } else if (colorNumbers.green.includes(num)) {
-                        selectedNumber.classList.add('green');
+                    do {
+                        group = generateRandomGroup(availableNumbers, numberUsage, i);
+                        attempts++;
+                    } while (attempts < maxAttempts && 
+                           (usedCombinations.has(group.join(',')) || 
+                            new Set(group).size !== 3));
+                    
+                    if (group && new Set(group).size === 3) {
+                        // 更新使用次数
+                        group.forEach(num => {
+                            numberUsage.set(num, (numberUsage.get(num) || 0) + 1);
+                        });
+                        
+                        usedCombinations.add(group.join(','));
+                        results.push({
+                            numbers: group.sort((a, b) => a - b),
+                            index: i + 1
+                        });
                     }
+                }
+                
+                currentResults = results;
+                displayResults(results);
+                showMessage(`成功生成 ${results.length} 组号码`, 'success');
+            }
+            
+            // 生成随机组号（多种算法）
+            function generateRandomGroup(numbers, numberUsage, groupIndex) {
+                const algorithms = [
+                    // 算法1: 加权随机（基于使用次数）
+                    (arr, usage) => {
+                        const weighted = arr.map(num => {
+                            const usageCount = usage.get(num) || 0;
+                            const weight = 1 / (usageCount + 1);
+                            return { num, weight: weight * (1 + Math.random() * 0.3) };
+                        });
+                        
+                        const totalWeight = weighted.reduce((sum, item) => sum + item.weight, 0);
+                        const selected = [];
+                        
+                        while (selected.length < 3 && weighted.length > 0) {
+                            let random = Math.random() * totalWeight;
+                            for (let i = 0; i < weighted.length; i++) {
+                                random -= weighted[i].weight;
+                                if (random <= 0) {
+                                    selected.push(weighted[i].num);
+                                    totalWeight -= weighted[i].weight;
+                                    weighted.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        return selected.slice(0, 3);
+                    },
                     
-                    selectedNumber.textContent = num.toString().padStart(2, '0');
-                    selectedNumbersGrid.appendChild(selectedNumber);
-                });
+                    // 算法2: Fisher-Yates 洗牌
+                    (arr) => {
+                        const shuffled = [...arr];
+                        for (let i = shuffled.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                        }
+                        return shuffled.slice(0, 3);
+                    },
+                    
+                    // 算法3: 基于时间的随机
+                    (arr) => {
+                        const timestamp = Date.now();
+                        return [...arr]
+                            .map(num => [(num * timestamp + groupIndex) % 1000, num])
+                            .sort((a, b) => a[0] - b[0])
+                            .slice(0, 3)
+                            .map(item => item[1]);
+                    }
+                ];
+                
+                // 轮换使用不同算法
+                const algorithm = algorithms[groupIndex % algorithms.length];
+                return algorithm(numbers, numberUsage);
             }
             
-            // 更新杀号区显示
-            function updateKillNumbersDisplay() {
-                killNumbersGrid.innerHTML = '';
-                
-                if (killNumbers.size === 0) {
-                    killSection.style.display = 'none';
+            // 显示结果
+            function displayResults(results) {
+                if (results.length === 0) {
+                    elements.resultContent.innerHTML = `
+                        <div class="empty-result">
+                            <p>❌ 无法生成有效的组号</p>
+                            <p style="font-size: 0.8rem; margin-top: 10px; color: #ccc;">请尝试选择更多号码或调整杀号设置</p>
+                        </div>
+                    `;
                     return;
                 }
                 
-                killSection.style.display = 'block';
-                
-                // 显示杀号
-                Array.from(killNumbers).sort((a, b) => a - b).forEach(num => {
-                    const killNumber = document.createElement('div');
-                    killNumber.className = 'kill-number';
-                    killNumber.textContent = num.toString().padStart(2, '0');
-                    killNumbersGrid.appendChild(killNumber);
-                });
+                elements.resultContent.innerHTML = results.map(result => `
+                    <div class="result-group">
+                        <div class="result-numbers">
+                            ${result.numbers.map(num => 
+                                `<div class="result-number">${num.toString().padStart(2, '0')}</div>`
+                            ).join('')}
+                            <div class="result-number special">三中三</div>
+                        </div>
+                    </div>
+                `).join('');
             }
             
-            // 更新隐藏号码显示
-            function updateHiddenNumbersDisplay() {
-                hiddenNumbersGrid.innerHTML = '';
+            // 显示消息
+            function showMessage(message, type = 'info') {
+                const colors = {
+                    error: '#f44336',
+                    success: '#4caf50',
+                    info: '#2196f3'
+                };
                 
-                if (hiddenNumbers.size === 0) {
-                    hiddenNumbersSection.style.display = 'none';
+                // 简单的消息提示
+                alert(message);
+            }
+            
+            // 复制结果
+            function copyResults() {
+                if (currentResults.length === 0) {
+                    showMessage('没有可复制的内容', 'error');
                     return;
                 }
                 
-                hiddenNumbersSection.style.display = 'block';
+                const text = currentResults.map(result => 
+                    result.numbers.map(num => num.toString().padStart(2, '0')).join(',') + ',三中三'
+                ).join('\n');
                 
-                // 显示隐藏号码
-                Array.from(hiddenNumbers).sort((a, b) => a - b).forEach(num => {
-                    const hiddenNumber = document.createElement('div');
-                    hiddenNumber.className = 'hidden-number';
-                    hiddenNumber.textContent = num.toString().padStart(2, '0');
-                    hiddenNumbersGrid.appendChild(hiddenNumber);
-                });
+                navigator.clipboard.writeText(text)
+                    .then(() => showMessage('✅ 组号已复制到剪贴板', 'success'))
+                    .catch(err => {
+                        console.error('复制失败:', err);
+                        showMessage('❌ 复制失败，请手动选择复制', 'error');
+                    });
             }
             
-            // 更新选中计数
-            function updateSelectedCount() {
-                selectedCount.textContent = `已选: ${selectedNumbers.size} 个号码`;
-            }
-            
-            // 清空按钮
-            clearBtn.addEventListener('click', function() {
+            // 清空所有
+            function clearAll() {
                 selectedNumbers.clear();
                 killNumbers.clear();
                 hiddenNumbers.clear();
+                currentResults = [];
                 
                 document.querySelectorAll('.number-item').forEach(item => {
                     item.classList.remove('selected', 'hidden');
                 });
                 
-                updateSelectedCount();
-                updateSelectedNumbersDisplay();
-                updateKillNumbersDisplay();
-                updateHiddenNumbersDisplay();
-                resultContent.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">请选择号码，然后点击上方按钮生成组号</p>';
-            });
-            
-            // 生成随机组号
-            function generateGroups(count) {
-                if (selectedNumbers.size < 3) {
-                    alert('请至少选择3个号码');
-                    return;
-                }
+                updateDisplay();
+                elements.resultContent.innerHTML = `
+                    <div class="empty-result">
+                        <p>🎯 请选择号码，然后点击生成按钮</p>
+                        <p style="font-size: 0.8rem; margin-top: 10px; color: #ccc;">建议选择6-15个号码获得最佳效果</p>
+                    </div>
+                `;
                 
-                // 过滤掉杀号和隐藏的号码
-                const availableNumbers = Array.from(selectedNumbers).filter(num => 
-                    !killNumbers.has(num) && !hiddenNumbers.has(num)
-                );
-                
-                if (availableNumbers.length < 3) {
-                    alert('可用号码不足3个，请选择更多号码或减少杀号/隐藏号码');
-                    return;
-                }
-                
-                let resultHTML = '';
-                
-                for (let i = 0; i < count; i++) {
-                    // 随机打乱数组并取前3个
-                    const shuffled = [...availableNumbers].sort(() => 0.5 - Math.random());
-                    const group = shuffled.slice(0, 3).sort((a, b) => a - b);
-                    
-                    resultHTML += `
-                        <div class="result-group">
-                            <div class="result-numbers">
-                                ${group.map(num => 
-                                    `<div class="result-number">${num.toString().padStart(2, '0')}</div>`
-                                ).join('')}
-                                <div class="result-number">三中三2</div>
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                resultContent.innerHTML = resultHTML;
+                showMessage('已清空所有选择', 'info');
             }
             
-            // 绑定生成按钮
-            generate5.addEventListener('click', () => generateGroups(5));
-            generate10.addEventListener('click', () => generateGroups(10));
-            generate20.addEventListener('click', () => generateGroups(20));
-            
-            // 复制已选号码
-            copySelectedBtn.addEventListener('click', function() {
+            // 分析功能
+            function analyzeNumbers() {
                 if (selectedNumbers.size === 0) {
-                    alert('请先选择号码');
+                    showMessage('请先选择要分析的号码', 'error');
                     return;
                 }
                 
-                const selectedNumbersArray = Array.from(selectedNumbers).sort((a, b) => a - b);
-                const textToCopy = selectedNumbersArray.map(num => num.toString().padStart(2, '0')).join(',');
+                const analysis = {
+                    total: selectedNumbers.size,
+                    red: 0, blue: 0, green: 0,
+                    zodiacs: {}
+                };
                 
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => alert('已选号码已复制到剪贴板'))
-                    .catch(() => {
-                        const textArea = document.createElement('textarea');
-                        textArea.value = textToCopy;
-                        document.body.appendChild(textArea);
-                        textArea.select();
-                        try {
-                            document.execCommand('copy');
-                            alert('已选号码已复制到剪贴板');
-                        } catch (err) {
-                            alert('复制失败，请手动复制');
-                        }
-                        document.body.removeChild(textArea);
-                    });
-            });
+                selectedNumbers.forEach(num => {
+                    if (config.colors.red.includes(num)) analysis.red++;
+                    else if (config.colors.blue.includes(num)) analysis.blue++;
+                    else if (config.colors.green.includes(num)) analysis.green++;
+                    
+                    const zodiac = Object.keys(config.zodiacs).find(z => 
+                        config.zodiacs[z].includes(num)
+                    );
+                    if (zodiac) {
+                        analysis.zodiacs[zodiac] = (analysis.zodiacs[zodiac] || 0) + 1;
+                    }
+                });
+                
+                const message = `
+分析结果：
+📊 总号码: ${analysis.total}个
+🔴 红波: ${analysis.red}个
+🔵 蓝波: ${analysis.blue}个  
+🟢 绿波: ${analysis.green}个
+🐭 生肖分布: ${Object.entries(analysis.zodiacs)
+    .map(([z, c]) => `${z}${c}个`).join(' ')}
+                `.trim();
+                
+                showMessage(message, 'info');
+            }
             
-            // 复制组号结果 - 修改为不显示"第几组"字样
-            copyResultBtn.addEventListener('click', function() {
-                if (resultContent.textContent.includes('请选择')) {
-                    alert('请先生成组号');
-                    return;
-                }
+            // 绑定事件
+            function bindEvents() {
+                elements.clearBtn.addEventListener('click', clearAll);
+                elements.analyzeBtn.addEventListener('click', analyzeNumbers);
+                elements.copyResultBtn.addEventListener('click', copyResults);
+                elements.generate5.addEventListener('click', () => generateGroups(5));
+                elements.generate10.addEventListener('click', () => generateGroups(10));
+                elements.generate20.addEventListener('click', () => generateGroups(20));
                 
-                const textToCopy = Array.from(resultContent.querySelectorAll('.result-group'))
-                    .map(group => {
-                        return Array.from(group.querySelectorAll('.result-number'))
-                            .map(item => item.textContent)
-                            .filter(text => !text.includes('三中三'))
-                            .join(',') + ',三中三2';
-                    })
-                    .join('\n');
-                
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => alert('组号结果已复制到剪贴板'))
-                    .catch(() => {
-                        const textArea = document.createElement('textarea');
-                        textArea.value = textToCopy;
-                        document.body.appendChild(textArea);
-                        textArea.select();
-                        try {
-                            document.execCommand('copy');
-                            alert('组号结果已复制到剪贴板');
-                        } catch (err) {
-                            alert('复制失败，请手动复制');
+                // 键盘快捷键
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey || e.metaKey) {
+                        switch(e.key) {
+                            case '1': e.preventDefault(); generateGroups(5); break;
+                            case '2': e.preventDefault(); generateGroups(10); break;
+                            case '3': e.preventDefault(); generateGroups(20); break;
+                            case 'c': e.preventDefault(); copyResults(); break;
+                            case 'a': e.preventDefault(); analyzeNumbers(); break;
+                            case 'Delete': e.preventDefault(); clearAll(); break;
                         }
-                        document.body.removeChild(textArea);
-                    });
-            });
+                    }
+                });
+            }
+            
+            // 初始化
+            function init() {
+                initializeNumberGrid();
+                bindEvents();
+                updateDisplay();
+                
+                // 显示欢迎信息
+                setTimeout(() => {
+                    showMessage('🎉 欢迎使用六合彩智能选号助手！\n\n💡 使用提示：\n• 单击：选择/取消号码\n• 双击：隐藏/显示号码\n• 长按：添加到杀号区\n• 快捷键：Ctrl+1/2/3 快速生成', 'info');
+                }, 1000);
+            }
+            
+            // 启动应用
+            init();
         });
     </script>
 </body>
