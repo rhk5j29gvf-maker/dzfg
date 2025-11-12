@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>挑码助手 - 六合彩选号工具</title>
+    <title>六合彩选号助手</title>
     <style>
         * {
             box-sizing: border-box;
@@ -70,7 +70,7 @@
             align-items: center;
             justify-content: center;
             aspect-ratio: 1;
-            border-radius: 6px;
+            border-radius: 50%;
             font-weight: bold;
             font-size: 0.75rem;
             cursor: pointer;
@@ -82,17 +82,17 @@
         }
         
         .number-item.red {
-            background: linear-gradient(135deg, #ff5252, #d32f2f);
+            background: radial-gradient(circle at 30% 30%, #ff5252, #d32f2f);
             color: white;
         }
         
         .number-item.blue {
-            background: linear-gradient(135deg, #448aff, #2962ff);
+            background: radial-gradient(circle at 30% 30%, #448aff, #2962ff);
             color: white;
         }
         
         .number-item.green {
-            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            background: radial-gradient(circle at 30% 30%, #4caf50, #2e7d32);
             color: white;
         }
         
@@ -166,12 +166,23 @@
         }
         
         .selected-number {
-            background: linear-gradient(135deg, #4caf50, #2e7d32);
             color: white;
             padding: 4px 8px;
             border-radius: 15px;
             font-size: 0.75rem;
             font-weight: bold;
+        }
+        
+        .selected-number.red {
+            background: linear-gradient(135deg, #ff5252, #d32f2f);
+        }
+        
+        .selected-number.blue {
+            background: linear-gradient(135deg, #448aff, #2962ff);
+        }
+        
+        .selected-number.green {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
         }
         
         /* 隐藏号码区域 */
@@ -238,12 +249,6 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
         
-        .result-group h3 {
-            font-size: 0.85rem;
-            margin-bottom: 6px;
-            color: #d32f2f;
-        }
-        
         .result-numbers {
             display: flex;
             flex-wrap: wrap;
@@ -308,7 +313,6 @@
             
             .number-item {
                 font-size: 0.7rem;
-                border-radius: 4px;
             }
             
             .zodiac-label {
@@ -400,7 +404,7 @@
             const hiddenNumbersSection = document.getElementById('hiddenNumbersSection');
             const hiddenNumbersGrid = document.getElementById('hiddenNumbersGrid');
             
-            // 存储选中的数字、杀号和隐藏号码
+            // 存储选中的数字和杀号
             let selectedNumbers = new Set();
             let killNumbers = new Set();
             let hiddenNumbers = new Set();
@@ -552,10 +556,20 @@
                 
                 selectedNumbersSection.style.display = 'block';
                 
-                // 显示已选号码
+                // 显示已选号码，保持对应颜色
                 Array.from(selectedNumbers).sort((a, b) => a - b).forEach(num => {
                     const selectedNumber = document.createElement('div');
                     selectedNumber.className = 'selected-number';
+                    
+                    // 根据号码颜色设置样式
+                    if (colorNumbers.red.includes(num)) {
+                        selectedNumber.classList.add('red');
+                    } else if (colorNumbers.blue.includes(num)) {
+                        selectedNumber.classList.add('blue');
+                    } else if (colorNumbers.green.includes(num)) {
+                        selectedNumber.classList.add('green');
+                    }
+                    
                     selectedNumber.textContent = num.toString().padStart(2, '0');
                     selectedNumbersGrid.appendChild(selectedNumber);
                 });
@@ -694,7 +708,7 @@
                     });
             });
             
-            // 复制组号结果
+            // 复制组号结果 - 修改为不显示"第几组"字样
             copyResultBtn.addEventListener('click', function() {
                 if (resultContent.textContent.includes('请选择')) {
                     alert('请先生成组号');
@@ -702,12 +716,11 @@
                 }
                 
                 const textToCopy = Array.from(resultContent.querySelectorAll('.result-group'))
-                    .map((group) => {
-                        const numbers = Array.from(group.querySelectorAll('.result-number'))
+                    .map(group => {
+                        return Array.from(group.querySelectorAll('.result-number'))
                             .map(item => item.textContent)
                             .filter(text => !text.includes('三中三'))
-                            .join(',');
-                        return `${numbers},三中三2`;
+                            .join(',') + ',三中三2';
                     })
                     .join('\n');
                 
