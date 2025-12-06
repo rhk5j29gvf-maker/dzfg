@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>挑码助手 - 优化版</title>
+    <title>挑码助手</title>
     <style>
         * {
             margin: 0;
@@ -13,857 +13,1072 @@
         }
         
         body {
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
             color: #333;
-            padding: 10px;
-            max-width: 500px;
-            margin: 0 auto;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
         }
         
-        .title {
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            color: white;
             text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            padding: 15px 0;
-            color: #d81e06;
-            background-color: white;
-            border-radius: 8px 8px 0 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .panel {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .panel-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffa726;
+            display: flex;
+            align-items: center;
+        }
+        
+        .panel-title i {
+            margin-right: 10px;
+            color: #ff6b6b;
         }
         
         .numbers-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
-            padding: 15px;
-            background-color: white;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            min-height: 300px;
+            margin-bottom: 20px;
         }
         
-        .number-item {
+        .number-ball {
             width: 100%;
             aspect-ratio: 1;
             border-radius: 50%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            color: white;
+            justify-content: center;
             font-weight: bold;
+            color: white;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
             position: relative;
-            transition: all 0.2s;
-            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+            user-select: none;
         }
         
-        .number-item.red {
-            background: radial-gradient(circle at 30% 30%, #ff6b6b, #d81e06);
+        .number-ball.red {
+            background: linear-gradient(135deg, #ff5252, #ff7675);
         }
         
-        .number-item.blue {
-            background: radial-gradient(circle at 30% 30%, #6bc6ff, #1e6bd8);
+        .number-ball.green {
+            background: linear-gradient(135deg, #00b894, #55efc4);
         }
         
-        .number-item.green {
-            background: radial-gradient(circle at 30% 30%, #6bff9e, #06d84e);
+        .number-ball.blue {
+            background: linear-gradient(135deg, #0984e3, #74b9ff);
         }
         
-        .number-item.selected {
-            opacity: 0.3;
+        .number-ball.selected {
+            opacity: 0.6;
+            transform: scale(0.9);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
         
-        .number-item.hidden {
-            opacity: 0.1;
+        .number-ball.killed {
+            opacity: 0.4;
+            transform: scale(0.85);
+            background: #b2bec3 !important;
         }
         
-        .number {
-            font-size: 16px;
+        .number-ball.selected::after {
+            content: "✓";
+            position: absolute;
+            font-size: 18px;
+            color: #00b894;
+            font-weight: bold;
         }
         
-        .zodiac {
+        .number-ball.killed::after {
+            content: "✕";
+            position: absolute;
+            font-size: 18px;
+            color: #ff7675;
+            font-weight: bold;
+        }
+        
+        .zodiac-label {
             font-size: 10px;
             margin-top: 2px;
+            opacity: 0.9;
         }
         
-        .selected-hidden-section {
+        .control-buttons {
             display: flex;
-            justify-content: space-between;
-            margin: 15px 0;
             gap: 10px;
+            margin: 15px 0;
         }
         
-        .selected-box, .hidden-box {
+        .control-btn {
             flex: 1;
-            background: white;
-            padding: 10px;
+            padding: 12px;
+            border: none;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            min-height: 60px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
         }
         
-        .box-title {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 5px;
+        .clear-btn {
+            background: linear-gradient(135deg, #ff7675, #ff5252);
+            color: white;
         }
         
-        .selected-numbers, .hidden-numbers {
+        .copy-btn {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+        }
+        
+        .share-btn {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .control-btn:active {
+            transform: translateY(0);
+        }
+        
+        .lists-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .list-box {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .list-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .selected-list .list-title {
+            color: #00b894;
+            border-bottom-color: #00b894;
+        }
+        
+        .killed-list .list-title {
+            color: #ff7675;
+            border-bottom-color: #ff7675;
+        }
+        
+        .list-items {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
+            gap: 8px;
+            min-height: 120px;
+            padding: 10px 0;
         }
         
-        .selected-number, .hidden-number {
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .selected-number:hover, .hidden-number:hover {
-            transform: scale(1.1);
-        }
-        
-        .selected-number.red {
-            background-color: #d81e06;
-        }
-        
-        .selected-number.blue {
-            background-color: #1e6bd8;
-        }
-        
-        .selected-number.green {
-            background-color: #06d84e;
-        }
-        
-        .hidden-number {
-            background: #888;
-            color: white;
-        }
-        
-        .random-buttons {
+        .list-number {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
-        .random-btn {
-            flex: 1;
-            padding: 12px 5px;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
+            align-items: center;
+            justify-content: center;
             font-size: 14px;
-        }
-        
-        .random-select {
-            background-color: #4caf50;
+            font-weight: bold;
             color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
         
-        .random-special {
-            background-color: #9c27b0;
-            color: white;
-            flex: 1.2;
+        .selected-list .list-number {
+            background: #00b894;
         }
         
-        .random-kill {
-            background-color: #ff5722;
-            color: white;
+        .killed-list .list-number {
+            background: #b2bec3;
         }
         
-        .random-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+        .empty-message {
+            color: #aaa;
+            font-style: italic;
+            text-align: center;
+            width: 100%;
+            margin-top: 20px;
         }
         
-        .zodiac-buttons {
+        .category-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 8px;
+            color: #0984e3;
+        }
+        
+        .category-buttons {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 8px;
-            margin-bottom: 15px;
         }
         
-        .zodiac-btn {
-            padding: 8px 5px;
+        .category-buttons.tail-buttons {
+            grid-template-columns: repeat(5, 1fr);
+        }
+        
+        .category-buttons.head-buttons {
+            grid-template-columns: repeat(5, 1fr);
+        }
+        
+        .category-buttons.property-buttons {
+            grid-template-columns: repeat(7, 1fr);
+        }
+        
+        .category-btn {
+            padding: 10px 5px;
             border: none;
             border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
             font-size: 14px;
-            background-color: #f0f0f0;
-        }
-        
-        .zodiac-btn:hover {
-            background-color: #e0e0e0;
-            transform: translateY(-2px);
-        }
-        
-        .function-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
-        .btn {
-            padding: 12px 5px;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
+            background: #dfe6e9;
+            color: #2d3436;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 14px;
-        }
-        
-        .btn-generate {
-            background-color: #1e6bd8;
-            color: white;
-        }
-        
-        .btn-clear {
-            background-color: #ff9800;
-            color: white;
-        }
-        
-        .btn-copy {
-            background-color: #06d84e;
-            color: white;
-        }
-        
-        .btn-generate-10 {
-            background-color: #d81e06;
-            color: white;
-        }
-        
-        .btn-generate-20 {
-            background-color: #9c27b0;
-            color: white;
-        }
-        
-        .btn-copy-groups {
-            background-color: #795548;
-            color: white;
-        }
-        
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-        
-        .generated-numbers {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
-            min-height: 150px;
-        }
-        
-        .generated-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 16px;
-        }
-        
-        .zodiac-section {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
-        }
-        
-        .info-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #d81e06;
+            transition: all 0.2s ease;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-btn:active {
+            transform: translateY(0);
+        }
+        
+        .category-btn.red {
+            background: linear-gradient(135deg, #ff7675, #ff5252);
+            color: white;
+        }
+        
+        .category-btn.green {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+        }
+        
+        .category-btn.blue {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .zodiac-chart {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .zodiac-chart-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffa726;
         }
         
         .zodiac-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .zodiac-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
         .zodiac-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
             text-align: center;
-            padding: 8px;
-            border-radius: 4px;
-            background-color: #f9f9f9;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
         }
         
         .zodiac-name {
+            font-size: 1.2rem;
             font-weight: bold;
-            margin-bottom: 5px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .zodiac-conflict {
+            font-size: 0.9rem;
+            color: #ff7675;
+            margin-bottom: 10px;
         }
         
         .zodiac-numbers {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 2px;
+            flex-wrap: wrap;
+            gap: 5px;
         }
         
         .zodiac-number {
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 10px;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
             color: white;
         }
         
-        .zodiac-number.red {
-            background-color: #d81e06;
-        }
-        
-        .zodiac-number.blue {
-            background-color: #1e6bd8;
-        }
-        
-        .zodiac-number.green {
-            background-color: #06d84e;
-        }
-        
-        .footer {
+        footer {
             text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            margin-top: 20px;
+        }
+        
+        .instructions {
+            background: #fff9e6;
+            border-left: 4px solid #ffa726;
             padding: 15px;
-            color: #666;
-            font-size: 12px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .instructions h3 {
+            color: #e17055;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
-    <div class="title">挑码助手 - 优化版</div>
-    
-    <div class="numbers-grid" id="numbersGrid">
-        <!-- 号码球将通过JavaScript动态生成 -->
-    </div>
-    
-    <div class="selected-hidden-section">
-        <div class="selected-box">
-            <div class="box-title">已选号码</div>
-            <div class="selected-numbers" id="selectedNumbers"></div>
-        </div>
-        <div class="hidden-box">
-            <div class="box-title">以杀号码</div>
-            <div class="hidden-numbers" id="hiddenNumbers"></div>
-        </div>
-    </div>
-    
-    <!-- 修改后的随机按钮区域 -->
-    <div class="random-buttons">
-        <button class="random-btn random-select" id="randomSelect">随缘中</button>
-        <button class="random-btn random-special" id="randomSpecial">大中特中</button>
-        <button class="random-btn random-kill" id="randomKill">随缘杀</button>
-    </div>
-    
-    <div class="zodiac-buttons" id="zodiacButtons">
-        <!-- 生肖按钮将通过JavaScript动态生成 -->
-    </div>
-    
-    <div class="function-buttons">
-        <!-- 第一行 -->
-        <button class="btn btn-clear" id="clearAll">清空全部</button>
-        <button class="btn btn-copy" id="copySelected">复制选中</button>
-        <button class="btn btn-copy-groups" id="copyGroups">复制组号</button>
+    <div class="container">
+        <header>
+            <h1>挑码助手</h1>
+            <p class="subtitle">智能选号，轻松挑码</p>
+        </header>
         
-        <!-- 第二行 -->
-        <button class="btn btn-generate" id="generate5">生成五组</button>
-        <button class="btn btn-generate-10" id="generate10">生成十组</button>
-        <button class="btn btn-generate-20" id="generate20">生成二十组</button>
-    </div>
-    
-    <div class="generated-numbers" id="generatedNumbers">
-        <!-- 生成的号码将显示在这里 -->
-    </div>
-    
-    <div class="zodiac-section">
-        <div class="info-title">2025蛇年(十二生肖对照)</div>
-        <div class="zodiac-grid" id="zodiacGrid">
-            <!-- 生肖将通过JavaScript动态生成 -->
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-title">
+                    <i>●</i> 数字选号区
+                </div>
+                
+                <div class="numbers-grid" id="numbersGrid">
+                    <!-- 数字1-49将通过JavaScript动态生成 -->
+                </div>
+                
+                <div class="control-buttons">
+                    <button class="control-btn clear-btn" id="clearBtn">清空选择</button>
+                    <button class="control-btn copy-btn" id="copyBtn">复制结果</button>
+                    <button class="control-btn share-btn" id="shareBtn">分享结果</button>
+                </div>
+                
+                <div class="instructions">
+                    <h3>使用说明</h3>
+                    <ul>
+                        <li><strong>单击数字</strong> - 添加到"已选号码"列表</li>
+                        <li><strong>双击数字</strong> - 添加到"已杀号码"列表</li>
+                        <li><strong>单击分类按钮</strong> - 批量选择对应分类的数字</li>
+                        <li><strong>双击分类按钮</strong> - 批量将对应分类的数字标记为已杀</li>
+                    </ul>
+                </div>
+                
+                <div class="lists-container">
+                    <div class="list-box selected-list">
+                        <div class="list-title">已选号码</div>
+                        <div class="list-items" id="selectedList">
+                            <div class="empty-message">暂无已选号码</div>
+                        </div>
+                    </div>
+                    
+                    <div class="list-box killed-list">
+                        <div class="list-title">已杀号码</div>
+                        <div class="list-items" id="killedList">
+                            <div class="empty-message">暂无已杀号码</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <div class="panel-title">
+                    <i>●</i> 分类筛选
+                </div>
+                
+                <div class="category-section">
+                    <div class="section-title">
+                        <i>🐭</i> 十二生肖
+                    </div>
+                    <div class="category-buttons" id="zodiacButtons">
+                        <!-- 生肖按钮将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="category-section">
+                    <div class="section-title">
+                        <i>🔢</i> 尾号
+                    </div>
+                    <div class="category-buttons tail-buttons" id="tailButtons">
+                        <!-- 尾号按钮将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="category-section">
+                    <div class="section-title">
+                        <i>🔢</i> 头号
+                    </div>
+                    <div class="category-buttons head-buttons" id="headButtons">
+                        <!-- 头号按钮将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="category-section">
+                    <div class="section-title">
+                        <i>🎨</i> 波色与属性
+                    </div>
+                    <div class="category-buttons property-buttons" id="propertyButtons">
+                        <!-- 属性按钮将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="footer">
-        <p>挑码助手 - 专业彩票选号工具</p>
-        <p>© 2025 挑码助手. 仅供娱乐参考</p>
+        
+        <div class="zodiac-chart">
+            <div class="zodiac-chart-title">生肖号码对照表</div>
+            <div class="zodiac-grid" id="zodiacChart">
+                <!-- 生肖对照表将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <footer>
+            <p>挑码助手 &copy; 2023 - 专业选号工具</p>
+        </footer>
     </div>
 
     <script>
-        // 生肖对应关系 - 根据您提供的图片信息
-        const zodiacMap = {
-            '蛇': [1, 13, 25, 37, 49],
-            '龙': [2, 14, 26, 38],
-            '兔': [3, 15, 27, 39],
-            '虎': [4, 16, 28, 40],
-            '牛': [5, 17, 29, 41],
-            '鼠': [6, 18, 30, 42],
-            '猪': [7, 19, 31, 43],
-            '狗': [8, 20, 32, 44],
-            '鸡': [9, 21, 33, 45],
-            '猴': [10, 22, 34, 46],
-            '羊': [11, 23, 35, 47],
-            '马': [12, 24, 36, 48]
-        };
-        
-        // 波色对应关系 - 根据您提供的图片信息
-        const colorMap = {
-            'red': [1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46],
-            'blue': [3, 4, 9, 10, 14, 15, 20, 25, 26, 31, 36, 37, 41, 42, 47, 48],
-            'green': [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49]
-        };
-        
-        // 获取号码对应的生肖
-        function getZodiac(number) {
-            for (const [zodiac, numbers] of Object.entries(zodiacMap)) {
-                if (numbers.includes(number)) {
-                    return zodiac;
+        // 数字数据
+        const numbersData = Array.from({length: 49}, (_, i) => {
+            const num = i + 1;
+            let color = 'blue';
+            if ([1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46].includes(num)) color = 'red';
+            if ([5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49].includes(num)) color = 'green';
+            
+            const zodiacs = {
+                '蛇': [1, 13, 25, 37, 49],
+                '龙': [2, 14, 26, 38],
+                '兔': [3, 15, 27, 39],
+                '虎': [4, 16, 28, 40],
+                '牛': [5, 17, 29, 41],
+                '鼠': [6, 18, 30, 42],
+                '猪': [7, 19, 31, 43],
+                '狗': [8, 20, 32, 44],
+                '鸡': [9, 21, 33, 45],
+                '猴': [10, 22, 34, 46],
+                '羊': [11, 23, 35, 47],
+                '马': [12, 24, 36, 48]
+            };
+            
+            let zodiac = '';
+            for (const [zodiacName, numbers] of Object.entries(zodiacs)) {
+                if (numbers.includes(num)) {
+                    zodiac = zodiacName;
+                    break;
                 }
             }
-            return '';
-        }
-        
-        // 获取号码颜色
-        function getColor(number) {
-            for (const [color, numbers] of Object.entries(colorMap)) {
-                if (numbers.includes(number)) {
-                    return color;
-                }
-            }
-            return 'red';
-        }
-        
-        // 随机打乱数组
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-        
-        // 初始化元素
-        const numbersGrid = document.getElementById('numbersGrid');
-        const selectedNumbers = document.getElementById('selectedNumbers');
-        const hiddenNumbers = document.getElementById('hiddenNumbers');
-        const generatedNumbers = document.getElementById('generatedNumbers');
-        const zodiacGrid = document.getElementById('zodiacGrid');
-        const zodiacButtons = document.getElementById('zodiacButtons');
-        
-        let selected = [];
-        let hidden = [];
-        
-        // 创建49个号码球
-        for (let i = 1; i <= 49; i++) {
-            const numberItem = document.createElement('div');
-            numberItem.className = `number-item ${getColor(i)}`;
-            numberItem.innerHTML = `
-                <div class="number">${i.toString().padStart(2, '0')}</div>
-                <div class="zodiac">${getZodiac(i)}</div>
-            `;
-            numberItem.dataset.number = i;
             
-            // 单击选择号码
-            numberItem.addEventListener('click', function() {
-                const num = parseInt(this.dataset.number);
-                
-                // 如果号码在已选列表中，则取消选择
-                if (selected.includes(num)) {
-                    selected = selected.filter(n => n !== num);
-                    this.classList.remove('selected');
-                } 
-                // 如果号码在隐藏列表中，则取消隐藏
-                else if (hidden.includes(num)) {
-                    hidden = hidden.filter(n => n !== num);
-                    this.classList.remove('hidden');
-                } 
-                // 否则选择号码
-                else {
-                    selected.push(num);
-                    this.classList.add('selected');
-                }
-                
-                updateSelectedNumbers();
-                updateHiddenNumbers();
-            });
-            
-            // 双击隐藏号码
-            numberItem.addEventListener('dblclick', function() {
-                const num = parseInt(this.dataset.number);
-                
-                // 如果号码在隐藏列表中，则取消隐藏
-                if (hidden.includes(num)) {
-                    hidden = hidden.filter(n => n !== num);
-                    this.classList.remove('hidden');
-                } 
-                // 如果号码在已选列表中，则取消选择并隐藏
-                else if (selected.includes(num)) {
-                    selected = selected.filter(n => n !== num);
-                    this.classList.remove('selected');
-                    hidden.push(num);
-                    this.classList.add('hidden');
-                } 
-                // 否则隐藏号码
-                else {
-                    hidden.push(num);
-                    this.classList.add('hidden');
-                }
-                
-                updateSelectedNumbers();
-                updateHiddenNumbers();
-            });
-            
-            numbersGrid.appendChild(numberItem);
-        }
-        
-        // 创建十二生肖按钮
-        const zodiacOrder = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
-        zodiacOrder.forEach(zodiac => {
-            const zodiacBtn = document.createElement('button');
-            zodiacBtn.className = 'zodiac-btn';
-            zodiacBtn.textContent = zodiac;
-            zodiacBtn.dataset.zodiac = zodiac;
-            
-            // 单击选择生肖对应号码
-            zodiacBtn.addEventListener('click', function() {
-                const zodiac = this.dataset.zodiac;
-                const numbers = zodiacMap[zodiac];
-                
-                // 选择对应生肖的所有号码
-                numbers.forEach(num => {
-                    if (!selected.includes(num) && !hidden.includes(num)) {
-                        selected.push(num);
-                        document.querySelector(`.number-item[data-number="${num}"]`).classList.add('selected');
-                    }
-                });
-                
-                updateSelectedNumbers();
-            });
-            
-            // 双击隐藏生肖对应号码
-            zodiacBtn.addEventListener('dblclick', function() {
-                const zodiac = this.dataset.zodiac;
-                const numbers = zodiacMap[zodiac];
-                
-                // 隐藏对应生肖的所有号码
-                numbers.forEach(num => {
-                    if (!hidden.includes(num)) {
-                        // 如果号码已选中，先取消选择
-                        if (selected.includes(num)) {
-                            selected = selected.filter(n => n !== num);
-                        }
-                        hidden.push(num);
-                        document.querySelector(`.number-item[data-number="${num}"]`).classList.add('hidden');
-                    }
-                });
-                
-                updateHiddenNumbers();
-                updateSelectedNumbers();
-            });
-            
-            zodiacButtons.appendChild(zodiacBtn);
+            return {num, color, zodiac};
         });
+
+        // 分类数据
+        const categories = {
+            zodiac: ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'],
+            tail: ['0尾', '1尾', '2尾', '3尾', '4尾', '5尾', '6尾', '7尾', '8尾', '9尾'],
+            head: ['0头', '1头', '2头', '3头', '4头'],
+            property: ['红波', '绿波', '蓝波', '大', '小', '单', '双']
+        };
+
+        // 生肖冲突数据
+        const zodiacConflicts = {
+            '鼠': '冲马',
+            '牛': '冲羊',
+            '虎': '冲猴',
+            '兔': '冲鸡',
+            '龙': '冲狗',
+            '蛇': '冲猪',
+            '马': '冲鼠',
+            '羊': '冲牛',
+            '猴': '冲虎',
+            '鸡': '冲兔',
+            '狗': '冲龙',
+            '猪': '冲蛇'
+        };
+
+        // 状态管理
+        let selectedNumbers = [];
+        let killedNumbers = [];
+        let clickTimers = {};
         
-        // 创建生肖对照表
-        for (const [zodiac, numbers] of Object.entries(zodiacMap)) {
-            const zodiacItem = document.createElement('div');
-            zodiacItem.className = 'zodiac-item';
-            
-            let conflict = '';
-            if (zodiac === '蛇') conflict = '[冲猪]';
-            else if (zodiac === '龙') conflict = '[冲狗]';
-            else if (zodiac === '兔') conflict = '[冲鸡]';
-            else if (zodiac === '虎') conflict = '[冲猴]';
-            else if (zodiac === '牛') conflict = '[冲羊]';
-            else if (zodiac === '鼠') conflict = '[冲马]';
-            else if (zodiac === '猪') conflict = '[冲蛇]';
-            else if (zodiac === '狗') conflict = '[冲龙]';
-            else if (zodiac === '鸡') conflict = '[冲兔]';
-            else if (zodiac === '猴') conflict = '[冲虎]';
-            else if (zodiac === '羊') conflict = '[冲牛]';
-            else if (zodiac === '马') conflict = '[冲鼠]';
-            
-            zodiacItem.innerHTML = `
-                <div class="zodiac-name">${zodiac}${conflict}</div>
-                <div class="zodiac-numbers">
-                    ${numbers.map(num => `<div class="zodiac-number ${getColor(num)}">${num.toString().padStart(2, '0')}</div>`).join('')}
-                </div>
-            `;
-            
-            zodiacGrid.appendChild(zodiacItem);
+        // 初始化函数
+        function init() {
+            renderNumberGrid();
+            renderCategoryButtons();
+            renderZodiacChart();
+            setupEventListeners();
+            console.log('挑码助手初始化完成');
         }
         
-        // 更新已选号码显示
-        function updateSelectedNumbers() {
-            selectedNumbers.innerHTML = '';
-            selected.sort((a, b) => a - b).forEach(num => {
-                const span = document.createElement('span');
-                span.className = `selected-number ${getColor(num)}`;
-                span.textContent = num.toString().padStart(2, '0');
-                span.dataset.number = num;
+        // 渲染数字网格
+        function renderNumberGrid() {
+            const numbersGrid = document.getElementById('numbersGrid');
+            numbersGrid.innerHTML = '';
+            
+            numbersData.forEach(data => {
+                const numberBall = document.createElement('div');
+                numberBall.className = `number-ball ${data.color}`;
+                numberBall.textContent = data.num;
+                numberBall.dataset.number = data.num;
                 
-                // 单击已选号码可以返回选号区
-                span.addEventListener('click', function() {
-                    const num = parseInt(this.dataset.number);
-                    selected = selected.filter(n => n !== num);
+                const zodiacLabel = document.createElement('div');
+                zodiacLabel.className = 'zodiac-label';
+                zodiacLabel.textContent = data.zodiac;
+                numberBall.appendChild(zodiacLabel);
+                
+                numbersGrid.appendChild(numberBall);
+            });
+        }
+        
+        // 渲染分类按钮
+        function renderCategoryButtons() {
+            // 生肖按钮
+            const zodiacButtons = document.getElementById('zodiacButtons');
+            categories.zodiac.forEach(zodiac => {
+                const button = document.createElement('button');
+                button.className = 'category-btn';
+                button.textContent = zodiac;
+                button.dataset.category = 'zodiac';
+                button.dataset.value = zodiac;
+                zodiacButtons.appendChild(button);
+            });
+            
+            // 尾号按钮
+            const tailButtons = document.getElementById('tailButtons');
+            categories.tail.forEach(tail => {
+                const button = document.createElement('button');
+                button.className = 'category-btn';
+                button.textContent = tail;
+                button.dataset.category = 'tail';
+                button.dataset.value = tail;
+                tailButtons.appendChild(button);
+            });
+            
+            // 头号按钮
+            const headButtons = document.getElementById('headButtons');
+            categories.head.forEach(head => {
+                const button = document.createElement('button');
+                button.className = 'category-btn';
+                button.textContent = head;
+                button.dataset.category = 'head';
+                button.dataset.value = head;
+                headButtons.appendChild(button);
+            });
+            
+            // 属性按钮
+            const propertyButtons = document.getElementById('propertyButtons');
+            categories.property.forEach(property => {
+                const button = document.createElement('button');
+                button.className = 'category-btn';
+                
+                if (property === '红波') button.classList.add('red');
+                else if (property === '绿波') button.classList.add('green');
+                else if (property === '蓝波') button.classList.add('blue');
+                
+                button.textContent = property;
+                button.dataset.category = 'property';
+                button.dataset.value = property;
+                propertyButtons.appendChild(button);
+            });
+        }
+        
+        // 渲染生肖对照表
+        function renderZodiacChart() {
+            const zodiacChart = document.getElementById('zodiacChart');
+            zodiacChart.innerHTML = '';
+            
+            categories.zodiac.forEach(zodiac => {
+                const zodiacItem = document.createElement('div');
+                zodiacItem.className = 'zodiac-item';
+                
+                const zodiacName = document.createElement('div');
+                zodiacName.className = 'zodiac-name';
+                zodiacName.textContent = zodiac;
+                zodiacItem.appendChild(zodiacName);
+                
+                const zodiacConflict = document.createElement('div');
+                zodiacConflict.className = 'zodiac-conflict';
+                zodiacConflict.textContent = zodiacConflicts[zodiac];
+                zodiacItem.appendChild(zodiacConflict);
+                
+                const zodiacNumbers = document.createElement('div');
+                zodiacNumbers.className = 'zodiac-numbers';
+                
+                // 获取该生肖对应的数字
+                const numbers = numbersData
+                    .filter(data => data.zodiac === zodiac)
+                    .map(data => data.num);
+                
+                numbers.forEach(num => {
+                    const numberElement = document.createElement('div');
+                    numberElement.className = 'zodiac-number';
                     
-                    // 恢复号码球显示
-                    const numberItem = document.querySelector(`.number-item[data-number="${num}"]`);
-                    numberItem.classList.remove('selected');
+                    // 根据数字设置颜色
+                    const numberData = numbersData.find(data => data.num === num);
+                    if (numberData) {
+                        if (numberData.color === 'red') {
+                            numberElement.style.background = 'linear-gradient(135deg, #ff7675, #ff5252)';
+                        } else if (numberData.color === 'green') {
+                            numberElement.style.background = 'linear-gradient(135deg, #00b894, #00a085)';
+                        } else {
+                            numberElement.style.background = 'linear-gradient(135deg, #74b9ff, #0984e3)';
+                        }
+                    }
                     
-                    updateSelectedNumbers();
+                    numberElement.textContent = num;
+                    zodiacNumbers.appendChild(numberElement);
                 });
                 
-                selectedNumbers.appendChild(span);
+                zodiacItem.appendChild(zodiacNumbers);
+                zodiacChart.appendChild(zodiacItem);
             });
         }
         
-        // 更新隐藏号码显示
-        function updateHiddenNumbers() {
-            hiddenNumbers.innerHTML = '';
-            hidden.sort((a, b) => a - b).forEach(num => {
-                const span = document.createElement('span');
-                span.className = 'hidden-number';
-                span.textContent = num.toString().padStart(2, '0');
-                span.dataset.number = num;
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 数字按钮点击事件
+            document.getElementById('numbersGrid').addEventListener('click', function(e) {
+                const numberBall = e.target.closest('.number-ball');
+                if (!numberBall) return;
                 
-                // 单击隐藏号码可以返回选号区
-                span.addEventListener('click', function() {
-                    const num = parseInt(this.dataset.number);
-                    hidden = hidden.filter(n => n !== num);
-                    
-                    // 恢复号码球显示
-                    const numberItem = document.querySelector(`.number-item[data-number="${num}"]`);
-                    numberItem.classList.remove('hidden');
-                    
-                    updateHiddenNumbers();
-                });
+                const number = parseInt(numberBall.dataset.number);
+                const timerId = `number-${number}`;
                 
-                hiddenNumbers.appendChild(span);
-            });
-        }
-        
-        // 生成随机号码组
-        function generateGroups(count) {
-            generatedNumbers.innerHTML = '';
-            
-            // 创建可用号码池（排除隐藏号码）
-            let availableNumbers = Array.from({length: 49}, (_, i) => i + 1)
-                .filter(num => !hidden.includes(num));
-            
-            // 如果选择了号码，则只从已选号码中生成
-            if (selected.length > 0) {
-                availableNumbers = availableNumbers.filter(num => selected.includes(num));
-            }
-            
-            // 生成指定数量的组
-            for (let i = 0; i < count; i++) {
-                // 打乱数组
-                const shuffled = shuffleArray([...availableNumbers]);
-                
-                // 取前三个号码
-                const group = shuffled.slice(0, 3).sort((a, b) => a - b);
-                
-                // 创建显示元素
-                const groupElement = document.createElement('div');
-                groupElement.className = 'generated-item';
-                groupElement.textContent = `${group.map(num => num.toString().padStart(2, '0')).join(',')} 三中三2`;
-                
-                generatedNumbers.appendChild(groupElement);
-            }
-        }
-        
-        // 清空所有选择
-        function clearAllSelections() {
-            selected = [];
-            hidden = [];
-            
-            // 清除所有选中和隐藏状态
-            document.querySelectorAll('.number-item').forEach(item => {
-                item.classList.remove('selected');
-                item.classList.remove('hidden');
-            });
-            
-            updateSelectedNumbers();
-            updateHiddenNumbers();
-            generatedNumbers.innerHTML = '';
-        }
-        
-        // 复制选中号码
-        function copySelectedNumbers() {
-            if (selected.length === 0) {
-                alert('请先选择号码');
-                return;
-            }
-            
-            const text = selected.sort((a, b) => a - b)
-                .map(num => num.toString().padStart(2, '0'))
-                .join(',');
-            
-            // 使用现代复制API
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text)
-                    .then(() => alert('已复制选中号码: ' + text))
-                    .catch(err => {
-                        // 降级方案
-                        copyTextFallback(text);
-                    });
-            } else {
-                // 降级方案
-                copyTextFallback(text);
-            }
-        }
-        
-        // 复制生成的组号
-        function copyGeneratedGroups() {
-            const groups = Array.from(generatedNumbers.children)
-                .map(el => el.textContent)
-                .join('\n');
-            
-            if (!groups) {
-                alert('请先生成号码组');
-                return;
-            }
-            
-            // 使用现代复制API
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(groups)
-                    .then(() => alert('已复制所有组号'))
-                    .catch(err => {
-                        // 降级方案
-                        copyTextFallback(groups);
-                    });
-            } else {
-                // 降级方案
-                copyTextFallback(groups);
-            }
-        }
-        
-        // 降级复制方案
-        function copyTextFallback(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    alert('已复制内容');
+                if (clickTimers[timerId]) {
+                    clearTimeout(clickTimers[timerId]);
+                    handleDoubleClick(number, numberBall);
+                    delete clickTimers[timerId];
                 } else {
-                    alert('复制失败，请手动复制');
+                    clickTimers[timerId] = setTimeout(() => {
+                        handleSingleClick(number, numberBall);
+                        delete clickTimers[timerId];
+                    }, 300);
                 }
-            } catch (err) {
-                alert('复制失败，请手动复制: ' + text);
-            }
-            
-            document.body.removeChild(textArea);
-        }
-        
-        // 随缘杀 - 随机选择10个号码到以杀列表
-        function randomKill() {
-            // 获取所有可用号码（排除已选和已杀号码）
-            const availableNumbers = Array.from({length: 49}, (_, i) => i + 1)
-                .filter(num => !selected.includes(num) && !hidden.includes(num));
-            
-            if (availableNumbers.length < 10) {
-                alert('可用号码不足10个，请先清空部分选择');
-                return;
-            }
-            
-            // 打乱数组并取前10个
-            const shuffled = shuffleArray([...availableNumbers]);
-            const randomNumbers = shuffled.slice(0, 10);
-            
-            // 添加到隐藏列表
-            randomNumbers.forEach(num => {
-                hidden.push(num);
-                document.querySelector(`.number-item[data-number="${num}"]`).classList.add('hidden');
             });
             
-            updateHiddenNumbers();
-        }
-        
-        // 随缘中 - 随机选择10个号码到已选列表
-        function randomSelect() {
-            // 获取所有可用号码（排除已选和已杀号码）
-            const availableNumbers = Array.from({length: 49}, (_, i) => i + 1)
-                .filter(num => !selected.includes(num) && !hidden.includes(num));
-            
-            if (availableNumbers.length < 10) {
-                alert('可用号码不足10个，请先清空部分选择');
-                return;
-            }
-            
-            // 打乱数组并取前10个
-            const shuffled = shuffleArray([...availableNumbers]);
-            const randomNumbers = shuffled.slice(0, 10);
-            
-            // 添加到已选列表
-            randomNumbers.forEach(num => {
-                selected.push(num);
-                document.querySelector(`.number-item[data-number="${num}"]`).classList.add('selected');
+            // 分类按钮点击事件
+            document.querySelectorAll('.category-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const timerId = `category-${button.dataset.category}-${button.dataset.value}`;
+                    
+                    if (clickTimers[timerId]) {
+                        clearTimeout(clickTimers[timerId]);
+                        handleCategoryDoubleClick(button);
+                        delete clickTimers[timerId];
+                    } else {
+                        clickTimers[timerId] = setTimeout(() => {
+                            handleCategorySingleClick(button);
+                            delete clickTimers[timerId];
+                        }, 300);
+                    }
+                });
             });
             
-            updateSelectedNumbers();
-        }
-        
-        // 大中特中 - 随机选择24个号码到已选列表
-        function randomSpecial() {
-            // 获取所有可用号码（排除已选和已杀号码）
-            const availableNumbers = Array.from({length: 49}, (_, i) => i + 1)
-                .filter(num => !selected.includes(num) && !hidden.includes(num));
+            // 控制按钮事件
+            document.getElementById('clearBtn').addEventListener('click', clearAll);
+            document.getElementById('copyBtn').addEventListener('click', copyResults);
+            document.getElementById('shareBtn').addEventListener('click', shareResults);
             
-            if (availableNumbers.length < 24) {
-                alert('可用号码不足24个，请先清空部分选择');
-                return;
-            }
-            
-            // 打乱数组并取前24个
-            const shuffled = shuffleArray([...availableNumbers]);
-            const randomNumbers = shuffled.slice(0, 24);
-            
-            // 添加到已选列表
-            randomNumbers.forEach(num => {
-                selected.push(num);
-                document.querySelector(`.number-item[data-number="${num}"]`).classList.add('selected');
+            // 列表项点击事件（从列表中移除）
+            document.getElementById('selectedList').addEventListener('click', function(e) {
+                const listNumber = e.target.closest('.list-number');
+                if (listNumber) removeFromList(listNumber, 'selected');
             });
             
-            updateSelectedNumbers();
+            document.getElementById('killedList').addEventListener('click', function(e) {
+                const listNumber = e.target.closest('.list-number');
+                if (listNumber) removeFromList(listNumber, 'killed');
+            });
         }
         
-        // 事件监听
-        document.getElementById('generate5').addEventListener('click', () => generateGroups(5));
-        document.getElementById('generate10').addEventListener('click', () => generateGroups(10));
-        document.getElementById('generate20').addEventListener('click', () => generateGroups(20));
-        document.getElementById('copySelected').addEventListener('click', copySelectedNumbers);
-        document.getElementById('copyGroups').addEventListener('click', copyGeneratedGroups);
-        document.getElementById('clearAll').addEventListener('click', clearAllSelections);
-        document.getElementById('randomKill').addEventListener('click', randomKill);
-        document.getElementById('randomSelect').addEventListener('click', randomSelect);
-        document.getElementById('randomSpecial').addEventListener('click', randomSpecial);
+        // 处理数字单击
+        function handleSingleClick(number, numberBall) {
+            if (killedNumbers.includes(number)) {
+                killedNumbers = killedNumbers.filter(n => n !== number);
+                numberBall.classList.remove('killed');
+            }
+            
+            const index = selectedNumbers.indexOf(number);
+            if (index === -1) {
+                selectedNumbers.push(number);
+                numberBall.classList.add('selected');
+            } else {
+                selectedNumbers.splice(index, 1);
+                numberBall.classList.remove('selected');
+            }
+            
+            updateLists();
+        }
         
-        // 初始化显示
-        updateSelectedNumbers();
-        updateHiddenNumbers();
+        // 处理数字双击
+        function handleDoubleClick(number, numberBall) {
+            if (selectedNumbers.includes(number)) {
+                selectedNumbers = selectedNumbers.filter(n => n !== number);
+                numberBall.classList.remove('selected');
+            }
+            
+            const index = killedNumbers.indexOf(number);
+            if (index === -1) {
+                killedNumbers.push(number);
+                numberBall.classList.add('killed');
+            } else {
+                killedNumbers.splice(index, 1);
+                numberBall.classList.remove('killed');
+            }
+            
+            updateLists();
+        }
+        
+        // 处理分类按钮单击
+        function handleCategorySingleClick(button) {
+            const category = button.dataset.category;
+            const value = button.dataset.value;
+            
+            // 根据分类和值获取对应的数字
+            let numbers = getNumbersByCategory(category, value);
+            
+            // 移除已杀状态
+            button.classList.remove('killed');
+            
+            // 切换选中状态
+            if (button.classList.contains('active')) {
+                // 如果已经是激活状态，则移除对应数字
+                numbers.forEach(num => {
+                    selectedNumbers = selectedNumbers.filter(n => n !== num);
+                    killedNumbers = killedNumbers.filter(n => n !== num);
+                });
+                button.classList.remove('active');
+            } else {
+                // 否则添加对应数字到已选列表
+                numbers.forEach(num => {
+                    if (!selectedNumbers.includes(num)) selectedNumbers.push(num);
+                    // 从已杀列表中移除
+                    killedNumbers = killedNumbers.filter(n => n !== num);
+                });
+                button.classList.add('active');
+            }
+            
+            updateNumberGrid();
+            updateLists();
+        }
+        
+        // 处理分类按钮双击
+        function handleCategoryDoubleClick(button) {
+            const category = button.dataset.category;
+            const value = button.dataset.value;
+            
+            // 根据分类和值获取对应的数字
+            let numbers = getNumbersByCategory(category, value);
+            
+            // 移除选中状态
+            button.classList.remove('active');
+            
+            // 切换已杀状态
+            if (button.classList.contains('killed')) {
+                // 如果已经是已杀状态，则移除对应数字
+                numbers.forEach(num => {
+                    killedNumbers = killedNumbers.filter(n => n !== num);
+                    selectedNumbers = selectedNumbers.filter(n => n !== num);
+                });
+                button.classList.remove('killed');
+            } else {
+                // 否则添加对应数字到已杀列表
+                numbers.forEach(num => {
+                    if (!killedNumbers.includes(num)) killedNumbers.push(num);
+                    // 从已选列表中移除
+                    selectedNumbers = selectedNumbers.filter(n => n !== num);
+                });
+                button.classList.add('killed');
+            }
+            
+            updateNumberGrid();
+            updateLists();
+        }
+        
+        // 根据分类获取数字
+        function getNumbersByCategory(category, value) {
+            switch(category) {
+                case 'zodiac':
+                    // 根据生肖返回对应数字
+                    return numbersData
+                        .filter(data => data.zodiac === value)
+                        .map(data => data.num);
+                case 'tail':
+                    // 根据尾号返回对应数字
+                    const tailNum = parseInt(value);
+                    return numbersData
+                        .filter(data => data.num % 10 === tailNum)
+                        .map(data => data.num);
+                case 'head':
+                    // 根据头号返回对应数字
+                    const headNum = parseInt(value);
+                    return numbersData
+                        .filter(data => Math.floor(data.num / 10) === headNum)
+                        .map(data => data.num);
+                case 'property':
+                    // 根据属性返回对应数字
+                    switch(value) {
+                        case '红波':
+                            return numbersData
+                                .filter(data => data.color === 'red')
+                                .map(data => data.num);
+                        case '绿波':
+                            return numbersData
+                                .filter(data => data.color === 'green')
+                                .map(data => data.num);
+                        case '蓝波':
+                            return numbersData
+                                .filter(data => data.color === 'blue')
+                                .map(data => data.num);
+                        case '大':
+                            return numbersData
+                                .filter(data => data.num >= 25)
+                                .map(data => data.num);
+                        case '小':
+                            return numbersData
+                                .filter(data => data.num < 25)
+                                .map(data => data.num);
+                        case '单':
+                            return numbersData
+                                .filter(data => data.num % 2 === 1)
+                                .map(data => data.num);
+                        case '双':
+                            return numbersData
+                                .filter(data => data.num % 2 === 0)
+                                .map(data => data.num);
+                        default:
+                            return [];
+                    }
+                default:
+                    return [];
+            }
+        }
+        
+        // 更新数字网格显示
+        function updateNumberGrid() {
+            document.querySelectorAll('.number-ball').forEach(ball => {
+                const number = parseInt(ball.dataset.number);
+                ball.classList.remove('selected', 'killed');
+                
+                if (selectedNumbers.includes(number)) {
+                    ball.classList.add('selected');
+                } else if (killedNumbers.includes(number)) {
+                    ball.classList.add('killed');
+                }
+            });
+        }
+        
+        // 更新列表显示
+        function updateLists() {
+            const selectedList = document.getElementById('selectedList');
+            const killedList = document.getElementById('killedList');
+            
+            // 更新已选列表
+            selectedList.innerHTML = '';
+            if (selectedNumbers.length === 0) {
+                selectedList.innerHTML = '<div class="empty-message">暂无已选号码</div>';
+            } else {
+                selectedNumbers.sort((a, b) => a - b).forEach(num => {
+                    const listNumber = document.createElement('div');
+                    listNumber.className = 'list-number';
+                    listNumber.textContent = num;
+                    listNumber.dataset.number = num;
+                    selectedList.appendChild(listNumber);
+                });
+            }
+            
+            // 更新已杀列表
+            killedList.innerHTML = '';
+            if (killedNumbers.length === 0) {
+                killedList.innerHTML = '<div class="empty-message">暂无已杀号码</div>';
+            } else {
+                killedNumbers.sort((a, b) => a - b).forEach(num => {
+                    const listNumber = document.createElement('div');
+                    listNumber.className = 'list-number';
+                    listNumber.textContent = num;
+                    listNumber.dataset.number = num;
+                    killedList.appendChild(listNumber);
+                });
+            }
+        }
+        
+        // 从列表中移除数字
+        function removeFromList(listNumber, listType) {
+            const number = parseInt(listNumber.dataset.number);
+            
+            if (listType === 'selected') {
+                selectedNumbers = selectedNumbers.filter(n => n !== number);
+            } else if (listType === 'killed') {
+                killedNumbers = killedNumbers.filter(n => n !== number);
+            }
+            
+            updateNumberGrid();
+            updateLists();
+        }
+        
+        // 清空所有
+        function clearAll() {
+            selectedNumbers = [];
+            killedNumbers = [];
+            updateNumberGrid();
+            updateLists();
+            
+            // 重置分类按钮状态
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active', 'killed');
+            });
+        }
+        
+        // 复制结果
+        function copyResults() {
+            const selectedText = selectedNumbers.length > 0 ? `已选: ${selectedNumbers.sort((a, b) => a - b).join(', ')}` : '已选: 无';
+            const killedText = killedNumbers.length > 0 ? `已杀: ${killedNumbers.sort((a, b) => a - b).join(', ')}` : '已杀: 无';
+            const resultText = `${selectedText} | ${killedText}`;
+            
+            navigator.clipboard.writeText(resultText)
+                .then(() => {
+                    alert('结果已复制到剪贴板');
+                })
+                .catch(err => {
+                    console.error('复制失败: ', err);
+                    alert('复制失败，请手动复制');
+                });
+        }
+        
+        // 分享结果
+        function shareResults() {
+            const selectedText = selectedNumbers.length > 0 ? `已选: ${selectedNumbers.sort((a, b) => a - b).join(', ')}` : '已选: 无';
+            const killedText = killedNumbers.length > 0 ? `已杀: ${killedNumbers.sort((a, b) => a - b).join(', ')}` : '已杀: 无';
+            const resultText = `${selectedText} | ${killedText}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: '挑码助手结果',
+                    text: resultText
+                })
+                .catch(err => {
+                    console.error('分享失败: ', err);
+                    alert('分享失败，请手动复制结果');
+                });
+            } else {
+                // 如果不支持Web Share API，则复制到剪贴板
+                copyResults();
+            }
+        }
+        
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
