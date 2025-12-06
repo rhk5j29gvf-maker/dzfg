@@ -17,11 +17,11 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -33,18 +33,17 @@
             background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
             color: white;
             text-align: center;
-            padding: 25px 20px;
+            padding: 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            font-size: 2rem;
+            margin-bottom: 5px;
         }
         
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1rem;
             opacity: 0.9;
         }
         
@@ -64,30 +63,23 @@
         .panel {
             background: #f9f9f9;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
         .panel-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #2c3e50;
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 2px solid #ffa726;
-            display: flex;
-            align-items: center;
-        }
-        
-        .panel-title i {
-            margin-right: 10px;
-            color: #ff6b6b;
         }
         
         .numbers-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .number-ball {
@@ -105,6 +97,7 @@
             box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
             position: relative;
             user-select: none;
+            font-size: 1.2rem; /* 增大字体 */
         }
         
         .number-ball.red {
@@ -122,7 +115,6 @@
         .number-ball.selected {
             opacity: 0.6;
             transform: scale(0.9);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
         
         .number-ball.killed {
@@ -134,7 +126,7 @@
         .number-ball.selected::after {
             content: "✓";
             position: absolute;
-            font-size: 18px;
+            font-size: 20px;
             color: #00b894;
             font-weight: bold;
         }
@@ -142,13 +134,13 @@
         .number-ball.killed::after {
             content: "✕";
             position: absolute;
-            font-size: 18px;
+            font-size: 20px;
             color: #ff7675;
             font-weight: bold;
         }
         
         .zodiac-label {
-            font-size: 10px;
+            font-size: 0.7rem;
             margin-top: 2px;
             opacity: 0.9;
         }
@@ -188,18 +180,13 @@
         
         .control-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
-        
-        .control-btn:active {
-            transform: translateY(0);
         }
         
         .lists-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         
         .list-box {
@@ -237,13 +224,13 @@
         }
         
         .list-number {
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 1rem; /* 增大字体 */
             font-weight: bold;
             color: white;
             cursor: pointer;
@@ -267,7 +254,7 @@
         }
         
         .category-section {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .section-title {
@@ -275,13 +262,6 @@
             font-weight: 600;
             margin-bottom: 10px;
             color: #2c3e50;
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title i {
-            margin-right: 8px;
-            color: #0984e3;
         }
         
         .category-buttons {
@@ -306,22 +286,12 @@
             padding: 10px 5px;
             border: none;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 0.9rem;
             background: #dfe6e9;
             color: #2d3436;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .category-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .category-btn:active {
-            transform: translateY(0);
         }
         
         .category-btn.red {
@@ -342,15 +312,13 @@
         .category-btn.active {
             background: linear-gradient(135deg, #fdcb6e, #e17055);
             color: white;
-            transform: scale(1.05);
         }
         
         .zodiac-chart {
-            margin-top: 30px;
+            margin-top: 20px;
             padding: 20px;
             background: #f9f9f9;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
         .zodiac-chart-title {
@@ -358,8 +326,6 @@
             color: #2c3e50;
             margin-bottom: 15px;
             text-align: center;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ffa726;
         }
         
         .zodiac-grid {
@@ -386,7 +352,7 @@
             font-size: 1.2rem;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
         
         .zodiac-conflict {
@@ -403,13 +369,13 @@
         }
         
         .zodiac-number {
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 0.9rem;
             font-weight: bold;
             color: white;
         }
@@ -419,28 +385,41 @@
             padding: 20px;
             background: #2c3e50;
             color: #ecf0f1;
-            margin-top: 20px;
         }
         
-        .instructions {
-            background: #fff9e6;
-            border-left: 4px solid #ffa726;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-        
-        .instructions h3 {
-            color: #e17055;
-            margin-bottom: 10px;
-        }
-        
-        .instructions ul {
-            padding-left: 20px;
-        }
-        
-        .instructions li {
-            margin-bottom: 8px;
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .number-ball {
+                font-size: 1rem;
+            }
+            
+            .list-number {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+            
+            .zodiac-number {
+                width: 35px;
+                height: 35px;
+                font-size: 0.8rem;
+            }
+            
+            .category-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .category-buttons.tail-buttons {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            .category-buttons.head-buttons {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            .category-buttons.property-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
     </style>
 </head>
@@ -453,28 +432,14 @@
         
         <div class="main-content">
             <div class="panel">
-                <div class="panel-title">
-                    <i>●</i> 数字选号区
-                </div>
+                <div class="panel-title">数字选号区</div>
                 
-                <div class="numbers-grid" id="numbersGrid">
-                    <!-- 数字1-49将通过JavaScript动态生成 -->
-                </div>
+                <div class="numbers-grid" id="numbersGrid"></div>
                 
                 <div class="control-buttons">
                     <button class="control-btn clear-btn" id="clearBtn">清空选择</button>
                     <button class="control-btn copy-btn" id="copyBtn">复制结果</button>
                     <button class="control-btn share-btn" id="shareBtn">分享结果</button>
-                </div>
-                
-                <div class="instructions">
-                    <h3>使用说明</h3>
-                    <ul>
-                        <li><strong>单击数字</strong> - 添加到"已选号码"列表</li>
-                        <li><strong>双击数字</strong> - 添加到"已杀号码"列表</li>
-                        <li><strong>单击分类按钮</strong> - 批量选择对应分类的数字</li>
-                        <li><strong>双击分类按钮</strong> - 批量将对应分类的数字标记为已杀</li>
-                    </ul>
                 </div>
                 
                 <div class="lists-container">
@@ -495,53 +460,33 @@
             </div>
             
             <div class="panel">
-                <div class="panel-title">
-                    <i>●</i> 分类筛选
+                <div class="panel-title">分类筛选</div>
+                
+                <div class="category-section">
+                    <div class="section-title">十二生肖</div>
+                    <div class="category-buttons" id="zodiacButtons"></div>
                 </div>
                 
                 <div class="category-section">
-                    <div class="section-title">
-                        <i>🐭</i> 十二生肖
-                    </div>
-                    <div class="category-buttons" id="zodiacButtons">
-                        <!-- 生肖按钮将通过JavaScript动态生成 -->
-                    </div>
+                    <div class="section-title">尾号</div>
+                    <div class="category-buttons tail-buttons" id="tailButtons"></div>
                 </div>
                 
                 <div class="category-section">
-                    <div class="section-title">
-                        <i>🔢</i> 尾号
-                    </div>
-                    <div class="category-buttons tail-buttons" id="tailButtons">
-                        <!-- 尾号按钮将通过JavaScript动态生成 -->
-                    </div>
+                    <div class="section-title">头号</div>
+                    <div class="category-buttons head-buttons" id="headButtons"></div>
                 </div>
                 
                 <div class="category-section">
-                    <div class="section-title">
-                        <i>🔢</i> 头号
-                    </div>
-                    <div class="category-buttons head-buttons" id="headButtons">
-                        <!-- 头号按钮将通过JavaScript动态生成 -->
-                    </div>
-                </div>
-                
-                <div class="category-section">
-                    <div class="section-title">
-                        <i>🎨</i> 波色与属性
-                    </div>
-                    <div class="category-buttons property-buttons" id="propertyButtons">
-                        <!-- 属性按钮将通过JavaScript动态生成 -->
-                    </div>
+                    <div class="section-title">波色与属性</div>
+                    <div class="category-buttons property-buttons" id="propertyButtons"></div>
                 </div>
             </div>
         </div>
         
         <div class="zodiac-chart">
             <div class="zodiac-chart-title">生肖号码对照表</div>
-            <div class="zodiac-grid" id="zodiacChart">
-                <!-- 生肖对照表将通过JavaScript动态生成 -->
-            </div>
+            <div class="zodiac-grid" id="zodiacChart"></div>
         </div>
         
         <footer>
@@ -618,7 +563,6 @@
             renderCategoryButtons();
             renderZodiacChart();
             setupEventListeners();
-            console.log('挑码助手初始化完成');
         }
         
         // 渲染数字网格
@@ -842,28 +786,19 @@
         
         // 处理分类按钮单击
         function handleCategorySingleClick(button) {
-            const category = button.dataset.category;
-            const value = button.dataset.value;
+            const numbers = getNumbersByCategory(button.dataset.category, button.dataset.value);
             
-            // 根据分类和值获取对应的数字
-            let numbers = getNumbersByCategory(category, value);
-            
-            // 移除已杀状态
             button.classList.remove('killed');
             
-            // 切换选中状态
             if (button.classList.contains('active')) {
-                // 如果已经是激活状态，则移除对应数字
                 numbers.forEach(num => {
                     selectedNumbers = selectedNumbers.filter(n => n !== num);
                     killedNumbers = killedNumbers.filter(n => n !== num);
                 });
                 button.classList.remove('active');
             } else {
-                // 否则添加对应数字到已选列表
                 numbers.forEach(num => {
                     if (!selectedNumbers.includes(num)) selectedNumbers.push(num);
-                    // 从已杀列表中移除
                     killedNumbers = killedNumbers.filter(n => n !== num);
                 });
                 button.classList.add('active');
@@ -875,28 +810,19 @@
         
         // 处理分类按钮双击
         function handleCategoryDoubleClick(button) {
-            const category = button.dataset.category;
-            const value = button.dataset.value;
+            const numbers = getNumbersByCategory(button.dataset.category, button.dataset.value);
             
-            // 根据分类和值获取对应的数字
-            let numbers = getNumbersByCategory(category, value);
-            
-            // 移除选中状态
             button.classList.remove('active');
             
-            // 切换已杀状态
             if (button.classList.contains('killed')) {
-                // 如果已经是已杀状态，则移除对应数字
                 numbers.forEach(num => {
                     killedNumbers = killedNumbers.filter(n => n !== num);
                     selectedNumbers = selectedNumbers.filter(n => n !== num);
                 });
                 button.classList.remove('killed');
             } else {
-                // 否则添加对应数字到已杀列表
                 numbers.forEach(num => {
                     if (!killedNumbers.includes(num)) killedNumbers.push(num);
-                    // 从已选列表中移除
                     selectedNumbers = selectedNumbers.filter(n => n !== num);
                 });
                 button.classList.add('killed');
@@ -910,72 +836,42 @@
         function getNumbersByCategory(category, value) {
             switch(category) {
                 case 'zodiac':
-                    // 根据生肖返回对应数字
                     return numbersData
                         .filter(data => data.zodiac === value)
                         .map(data => data.num);
                 case 'tail':
-                    // 根据尾号返回对应数字
                     const tailNum = parseInt(value);
                     return numbersData
                         .filter(data => data.num % 10 === tailNum)
                         .map(data => data.num);
                 case 'head':
-                    // 根据头号返回对应数字
                     const headNum = parseInt(value);
                     return numbersData
                         .filter(data => Math.floor(data.num / 10) === headNum)
                         .map(data => data.num);
                 case 'property':
-                    // 根据属性返回对应数字
                     switch(value) {
-                        case '红波':
-                            return numbersData
-                                .filter(data => data.color === 'red')
-                                .map(data => data.num);
-                        case '绿波':
-                            return numbersData
-                                .filter(data => data.color === 'green')
-                                .map(data => data.num);
-                        case '蓝波':
-                            return numbersData
-                                .filter(data => data.color === 'blue')
-                                .map(data => data.num);
-                        case '大':
-                            return numbersData
-                                .filter(data => data.num >= 25)
-                                .map(data => data.num);
-                        case '小':
-                            return numbersData
-                                .filter(data => data.num < 25)
-                                .map(data => data.num);
-                        case '单':
-                            return numbersData
-                                .filter(data => data.num % 2 === 1)
-                                .map(data => data.num);
-                        case '双':
-                            return numbersData
-                                .filter(data => data.num % 2 === 0)
-                                .map(data => data.num);
-                        default:
-                            return [];
+                        case '红波': return numbersData.filter(d => d.color === 'red').map(d => d.num);
+                        case '绿波': return numbersData.filter(d => d.color === 'green').map(d => d.num);
+                        case '蓝波': return numbersData.filter(d => d.color === 'blue').map(d => d.num);
+                        case '大': return numbersData.filter(d => d.num >= 25).map(d => d.num);
+                        case '小': return numbersData.filter(d => d.num < 25).map(d => d.num);
+                        case '单': return numbersData.filter(d => d.num % 2 === 1).map(d => d.num);
+                        case '双': return numbersData.filter(d => d.num % 2 === 0).map(d => d.num);
+                        default: return [];
                     }
-                default:
-                    return [];
+                default: return [];
             }
         }
         
         // 更新数字网格显示
         function updateNumberGrid() {
             document.querySelectorAll('.number-ball').forEach(ball => {
-                const number = parseInt(ball.dataset.number);
+                const num = parseInt(ball.dataset.number);
                 ball.classList.remove('selected', 'killed');
                 
-                if (selectedNumbers.includes(number)) {
-                    ball.classList.add('selected');
-                } else if (killedNumbers.includes(number)) {
-                    ball.classList.add('killed');
-                }
+                if (selectedNumbers.includes(num)) ball.classList.add('selected');
+                if (killedNumbers.includes(num)) ball.classList.add('killed');
             });
         }
         
@@ -994,6 +890,15 @@
                     listNumber.className = 'list-number';
                     listNumber.textContent = num;
                     listNumber.dataset.number = num;
+                    
+                    // 保持数字原来的颜色
+                    const originalData = numbersData.find(d => d.num === num);
+                    if (originalData) {
+                        listNumber.style.backgroundColor = 
+                            originalData.color === 'red' ? '#ff5252' : 
+                            originalData.color === 'green' ? '#00b894' : '#0984e3';
+                    }
+                    
                     selectedList.appendChild(listNumber);
                 });
             }
@@ -1015,12 +920,12 @@
         
         // 从列表中移除数字
         function removeFromList(listNumber, listType) {
-            const number = parseInt(listNumber.dataset.number);
+            const num = parseInt(listNumber.dataset.number);
             
             if (listType === 'selected') {
-                selectedNumbers = selectedNumbers.filter(n => n !== number);
+                selectedNumbers = selectedNumbers.filter(n => n !== num);
             } else if (listType === 'killed') {
-                killedNumbers = killedNumbers.filter(n => n !== number);
+                killedNumbers = killedNumbers.filter(n => n !== num);
             }
             
             updateNumberGrid();
@@ -1034,7 +939,6 @@
             updateNumberGrid();
             updateLists();
             
-            // 重置分类按钮状态
             document.querySelectorAll('.category-btn').forEach(btn => {
                 btn.classList.remove('active', 'killed');
             });
@@ -1042,37 +946,29 @@
         
         // 复制结果
         function copyResults() {
-            const selectedText = selectedNumbers.length > 0 ? `已选: ${selectedNumbers.sort((a, b) => a - b).join(', ')}` : '已选: 无';
-            const killedText = killedNumbers.length > 0 ? `已杀: ${killedNumbers.sort((a, b) => a - b).join(', ')}` : '已杀: 无';
-            const resultText = `${selectedText} | ${killedText}`;
+            const text = `已选: ${selectedNumbers.sort((a,b)=>a-b).join(', ') || '无'}\n已杀: ${killedNumbers.sort((a,b)=>a-b).join(', ') || '无'}`;
             
-            navigator.clipboard.writeText(resultText)
-                .then(() => {
-                    alert('结果已复制到剪贴板');
-                })
-                .catch(err => {
-                    console.error('复制失败: ', err);
-                    alert('复制失败，请手动复制');
-                });
+            navigator.clipboard.writeText(text).then(() => {
+                alert('结果已复制到剪贴板');
+            }).catch(err => {
+                console.error('复制失败:', err);
+                alert('复制失败，请手动复制');
+            });
         }
         
         // 分享结果
         function shareResults() {
-            const selectedText = selectedNumbers.length > 0 ? `已选: ${selectedNumbers.sort((a, b) => a - b).join(', ')}` : '已选: 无';
-            const killedText = killedNumbers.length > 0 ? `已杀: ${killedNumbers.sort((a, b) => a - b).join(', ')}` : '已杀: 无';
-            const resultText = `${selectedText} | ${killedText}`;
+            const text = `已选: ${selectedNumbers.sort((a,b)=>a-b).join(', ') || '无'}\n已杀: ${killedNumbers.sort((a,b)=>a-b).join(', ') || '无'}`;
             
             if (navigator.share) {
                 navigator.share({
                     title: '挑码助手结果',
-                    text: resultText
-                })
-                .catch(err => {
-                    console.error('分享失败: ', err);
-                    alert('分享失败，请手动复制结果');
+                    text: text
+                }).catch(err => {
+                    console.error('分享失败:', err);
+                    copyResults();
                 });
             } else {
-                // 如果不支持Web Share API，则复制到剪贴板
                 copyResults();
             }
         }
