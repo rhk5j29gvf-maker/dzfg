@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>挑码助手</title>
     <style>
         * {
@@ -10,6 +10,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
@@ -17,15 +18,16 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
+            touch-action: manipulation;
         }
         
         .container {
-            max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
         
@@ -33,61 +35,56 @@
             background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
             color: white;
             text-align: center;
-            padding: 25px 20px;
+            padding: 15px 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
         
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             opacity: 0.9;
         }
         
         .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            padding: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
         }
         
         .panel {
             background: #f9f9f9;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
         }
         
         .panel-title {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
             border-bottom: 2px solid #ffa726;
             display: flex;
             align-items: center;
+            justify-content: space-between;
         }
         
         .panel-title i {
-            margin-right: 10px;
+            margin-right: 8px;
             color: #ff6b6b;
         }
         
         .numbers-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 5px;
+            margin-bottom: 15px;
         }
         
         .number-ball {
@@ -99,12 +96,14 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 0.9rem;
             color: white;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
             user-select: none;
+            touch-action: manipulation;
         }
         
         .number-ball.red {
@@ -122,7 +121,7 @@
         .number-ball.selected {
             opacity: 0.6;
             transform: scale(0.9);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         
         .number-ball.killed {
@@ -134,7 +133,7 @@
         .number-ball.selected::after {
             content: "✓";
             position: absolute;
-            font-size: 18px;
+            font-size: 16px;
             color: #00b894;
             font-weight: bold;
         }
@@ -142,33 +141,33 @@
         .number-ball.killed::after {
             content: "✕";
             position: absolute;
-            font-size: 18px;
+            font-size: 16px;
             color: #ff7675;
             font-weight: bold;
         }
         
         .zodiac-label {
-            font-size: 10px;
+            font-size: 8px;
             margin-top: 2px;
             opacity: 0.9;
         }
         
         .control-buttons {
             display: flex;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 8px;
+            margin: 10px 0;
         }
         
         .control-btn {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .clear-btn {
@@ -186,35 +185,30 @@
             color: white;
         }
         
-        .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
-        
         .control-btn:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
         
         .lists-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
         }
         
         .list-box {
             background: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
         
         .list-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-align: center;
-            padding-bottom: 8px;
+            padding-bottom: 6px;
             border-bottom: 2px solid #ddd;
         }
         
@@ -231,19 +225,19 @@
         .list-items {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            min-height: 120px;
-            padding: 10px 0;
+            gap: 6px;
+            min-height: 80px;
+            padding: 8px 0;
         }
         
         .list-number {
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             color: white;
         }
@@ -253,31 +247,32 @@
             font-style: italic;
             text-align: center;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 15px;
+            font-size: 0.9rem;
         }
         
         .category-section {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .section-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #2c3e50;
             display: flex;
             align-items: center;
         }
         
         .section-title i {
-            margin-right: 8px;
+            margin-right: 6px;
             color: #0984e3;
         }
         
         .category-buttons {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
         }
         
         .category-buttons.tail-buttons {
@@ -289,29 +284,24 @@
         }
         
         .category-buttons.property-buttons {
-            grid-template-columns: repeat(7, 1fr);
+            grid-template-columns: repeat(3, 1fr);
         }
         
         .category-btn {
-            padding: 10px 5px;
+            padding: 8px 4px;
             border: none;
-            border-radius: 6px;
-            font-size: 14px;
+            border-radius: 5px;
+            font-size: 0.8rem;
             background: #dfe6e9;
             color: #2d3436;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .category-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
         
         .category-btn:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
         
         .category-btn.red {
@@ -332,7 +322,6 @@
         .category-btn.active {
             background: linear-gradient(135deg, #fdcb6e, #e17055);
             color: white;
-            transform: scale(1.05);
         }
         
         .category-btn.killed {
@@ -341,80 +330,75 @@
         }
         
         .zodiac-chart {
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 15px;
+            padding: 15px;
             background: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
         }
         
         .zodiac-chart-title {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-align: center;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
             border-bottom: 2px solid #ffa726;
         }
         
         .zodiac-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-        
-        @media (max-width: 768px) {
-            .zodiac-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
         
         .zodiac-item {
             background: white;
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 6px;
+            padding: 10px;
             text-align: center;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
         }
         
         .zodiac-name {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .zodiac-conflict {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #ff7675;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
         .zodiac-numbers {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 5px;
+            gap: 4px;
         }
         
         .zodiac-number {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: bold;
             color: white;
         }
         
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             background: #2c3e50;
             color: #ecf0f1;
-            margin-top: 20px;
+            margin-top: 15px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -1010,7 +994,7 @@
                 killedNumbers.sort((a, b) => a - b).forEach(num => {
                     const listNumber = document.createElement('div');
                     listNumber.className = 'list-number';
-                    listNumber.style.background = '#b2bec3'; // 强制灰色背景
+                    listNumber.style.background = '#b2bec3';
                     listNumber.textContent = num;
                     listNumber.dataset.number = num;
                     killedList.appendChild(listNumber);
