@@ -17,11 +17,11 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
-            padding: 10px;
+            padding: 20px;
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -33,17 +33,18 @@
             background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
             color: white;
             text-align: center;
-            padding: 20px;
+            padding: 25px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         h1 {
-            font-size: 2rem;
-            margin-bottom: 5px;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
         
         .subtitle {
-            font-size: 1rem;
+            font-size: 1.1rem;
             opacity: 0.9;
         }
         
@@ -63,23 +64,30 @@
         .panel {
             background: #f9f9f9;
             border-radius: 10px;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
         .panel-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #2c3e50;
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 2px solid #ffa726;
+            display: flex;
+            align-items: center;
+        }
+        
+        .panel-title i {
+            margin-right: 10px;
+            color: #ff6b6b;
         }
         
         .numbers-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .number-ball {
@@ -97,7 +105,6 @@
             box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
             position: relative;
             user-select: none;
-            font-size: 1.2rem; /* 增大字体 */
         }
         
         .number-ball.red {
@@ -115,6 +122,7 @@
         .number-ball.selected {
             opacity: 0.6;
             transform: scale(0.9);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
         
         .number-ball.killed {
@@ -126,7 +134,7 @@
         .number-ball.selected::after {
             content: "✓";
             position: absolute;
-            font-size: 20px;
+            font-size: 18px;
             color: #00b894;
             font-weight: bold;
         }
@@ -134,13 +142,13 @@
         .number-ball.killed::after {
             content: "✕";
             position: absolute;
-            font-size: 20px;
+            font-size: 18px;
             color: #ff7675;
             font-weight: bold;
         }
         
         .zodiac-label {
-            font-size: 0.7rem;
+            font-size: 10px;
             margin-top: 2px;
             opacity: 0.9;
         }
@@ -180,13 +188,18 @@
         
         .control-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .control-btn:active {
+            transform: translateY(0);
         }
         
         .lists-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
         
         .list-box {
@@ -224,25 +237,15 @@
         }
         
         .list-number {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem; /* 增大字体 */
+            font-size: 14px;
             font-weight: bold;
             color: white;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .selected-list .list-number {
-            background: #00b894;
-        }
-        
-        .killed-list .list-number {
-            background: #b2bec3;
         }
         
         .empty-message {
@@ -254,7 +257,7 @@
         }
         
         .category-section {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .section-title {
@@ -262,6 +265,13 @@
             font-weight: 600;
             margin-bottom: 10px;
             color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 8px;
+            color: #0984e3;
         }
         
         .category-buttons {
@@ -286,12 +296,22 @@
             padding: 10px 5px;
             border: none;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 14px;
             background: #dfe6e9;
             color: #2d3436;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-btn:active {
+            transform: translateY(0);
         }
         
         .category-btn.red {
@@ -312,13 +332,20 @@
         .category-btn.active {
             background: linear-gradient(135deg, #fdcb6e, #e17055);
             color: white;
+            transform: scale(1.05);
+        }
+        
+        .category-btn.killed {
+            background: linear-gradient(135deg, #b2bec3, #636e72);
+            color: white;
         }
         
         .zodiac-chart {
-            margin-top: 20px;
+            margin-top: 30px;
             padding: 20px;
             background: #f9f9f9;
             border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
         .zodiac-chart-title {
@@ -326,6 +353,8 @@
             color: #2c3e50;
             margin-bottom: 15px;
             text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffa726;
         }
         
         .zodiac-grid {
@@ -352,7 +381,7 @@
             font-size: 1.2rem;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
         
         .zodiac-conflict {
@@ -369,13 +398,13 @@
         }
         
         .zodiac-number {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 12px;
             font-weight: bold;
             color: white;
         }
@@ -385,41 +414,7 @@
             padding: 20px;
             background: #2c3e50;
             color: #ecf0f1;
-        }
-        
-        /* 响应式调整 */
-        @media (max-width: 480px) {
-            .number-ball {
-                font-size: 1rem;
-            }
-            
-            .list-number {
-                width: 35px;
-                height: 35px;
-                font-size: 0.9rem;
-            }
-            
-            .zodiac-number {
-                width: 35px;
-                height: 35px;
-                font-size: 0.8rem;
-            }
-            
-            .category-buttons {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .category-buttons.tail-buttons {
-                grid-template-columns: repeat(5, 1fr);
-            }
-            
-            .category-buttons.head-buttons {
-                grid-template-columns: repeat(5, 1fr);
-            }
-            
-            .category-buttons.property-buttons {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -432,9 +427,13 @@
         
         <div class="main-content">
             <div class="panel">
-                <div class="panel-title">数字选号区</div>
+                <div class="panel-title">
+                    <span><i>●</i> 数字选号区</span>
+                </div>
                 
-                <div class="numbers-grid" id="numbersGrid"></div>
+                <div class="numbers-grid" id="numbersGrid">
+                    <!-- 数字1-49将通过JavaScript动态生成 -->
+                </div>
                 
                 <div class="control-buttons">
                     <button class="control-btn clear-btn" id="clearBtn">清空选择</button>
@@ -460,33 +459,53 @@
             </div>
             
             <div class="panel">
-                <div class="panel-title">分类筛选</div>
-                
-                <div class="category-section">
-                    <div class="section-title">十二生肖</div>
-                    <div class="category-buttons" id="zodiacButtons"></div>
+                <div class="panel-title">
+                    <i>●</i> 分类筛选
                 </div>
                 
                 <div class="category-section">
-                    <div class="section-title">尾号</div>
-                    <div class="category-buttons tail-buttons" id="tailButtons"></div>
+                    <div class="section-title">
+                        <i>🐭</i> 十二生肖
+                    </div>
+                    <div class="category-buttons" id="zodiacButtons">
+                        <!-- 生肖按钮将通过JavaScript动态生成 -->
+                    </div>
                 </div>
                 
                 <div class="category-section">
-                    <div class="section-title">头号</div>
-                    <div class="category-buttons head-buttons" id="headButtons"></div>
+                    <div class="section-title">
+                        <i>🔢</i> 尾号
+                    </div>
+                    <div class="category-buttons tail-buttons" id="tailButtons">
+                        <!-- 尾号按钮将通过JavaScript动态生成 -->
+                    </div>
                 </div>
                 
                 <div class="category-section">
-                    <div class="section-title">波色与属性</div>
-                    <div class="category-buttons property-buttons" id="propertyButtons"></div>
+                    <div class="section-title">
+                        <i>🔢</i> 头号
+                    </div>
+                    <div class="category-buttons head-buttons" id="headButtons">
+                        <!-- 头号按钮将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="category-section">
+                    <div class="section-title">
+                        <i>🎨</i> 波色与属性
+                    </div>
+                    <div class="category-buttons property-buttons" id="propertyButtons">
+                        <!-- 属性按钮将通过JavaScript动态生成 -->
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="zodiac-chart">
             <div class="zodiac-chart-title">生肖号码对照表</div>
-            <div class="zodiac-grid" id="zodiacChart"></div>
+            <div class="zodiac-grid" id="zodiacChart">
+                <!-- 生肖对照表将通过JavaScript动态生成 -->
+            </div>
         </div>
         
         <footer>
@@ -559,10 +578,32 @@
         
         // 初始化函数
         function init() {
+            loadData();
             renderNumberGrid();
             renderCategoryButtons();
             renderZodiacChart();
             setupEventListeners();
+            console.log('挑码助手初始化完成');
+        }
+        
+        // 加载本地存储的数据
+        function loadData() {
+            const savedSelected = localStorage.getItem('selectedNumbers');
+            const savedKilled = localStorage.getItem('killedNumbers');
+            
+            if (savedSelected) {
+                selectedNumbers = JSON.parse(savedSelected);
+            }
+            
+            if (savedKilled) {
+                killedNumbers = JSON.parse(savedKilled);
+            }
+        }
+        
+        // 保存数据到本地存储
+        function saveData() {
+            localStorage.setItem('selectedNumbers', JSON.stringify(selectedNumbers));
+            localStorage.setItem('killedNumbers', JSON.stringify(killedNumbers));
         }
         
         // 渲染数字网格
@@ -583,6 +624,8 @@
                 
                 numbersGrid.appendChild(numberBall);
             });
+            
+            updateNumberGrid();
         }
         
         // 渲染分类按钮
@@ -763,6 +806,7 @@
             }
             
             updateLists();
+            saveData();
         }
         
         // 处理数字双击
@@ -782,23 +826,33 @@
             }
             
             updateLists();
+            saveData();
         }
         
         // 处理分类按钮单击
         function handleCategorySingleClick(button) {
-            const numbers = getNumbersByCategory(button.dataset.category, button.dataset.value);
+            const category = button.dataset.category;
+            const value = button.dataset.value;
             
+            // 根据分类和值获取对应的数字
+            let numbers = getNumbersByCategory(category, value);
+            
+            // 移除已杀状态
             button.classList.remove('killed');
             
+            // 切换选中状态
             if (button.classList.contains('active')) {
+                // 如果已经是激活状态，则移除对应数字
                 numbers.forEach(num => {
                     selectedNumbers = selectedNumbers.filter(n => n !== num);
                     killedNumbers = killedNumbers.filter(n => n !== num);
                 });
                 button.classList.remove('active');
             } else {
+                // 否则添加对应数字到已选列表
                 numbers.forEach(num => {
                     if (!selectedNumbers.includes(num)) selectedNumbers.push(num);
+                    // 从已杀列表中移除
                     killedNumbers = killedNumbers.filter(n => n !== num);
                 });
                 button.classList.add('active');
@@ -806,23 +860,33 @@
             
             updateNumberGrid();
             updateLists();
+            saveData();
         }
         
         // 处理分类按钮双击
         function handleCategoryDoubleClick(button) {
-            const numbers = getNumbersByCategory(button.dataset.category, button.dataset.value);
+            const category = button.dataset.category;
+            const value = button.dataset.value;
             
+            // 根据分类和值获取对应的数字
+            let numbers = getNumbersByCategory(category, value);
+            
+            // 移除选中状态
             button.classList.remove('active');
             
+            // 切换已杀状态
             if (button.classList.contains('killed')) {
+                // 如果已经是已杀状态，则移除对应数字
                 numbers.forEach(num => {
                     killedNumbers = killedNumbers.filter(n => n !== num);
                     selectedNumbers = selectedNumbers.filter(n => n !== num);
                 });
                 button.classList.remove('killed');
             } else {
+                // 否则添加对应数字到已杀列表
                 numbers.forEach(num => {
                     if (!killedNumbers.includes(num)) killedNumbers.push(num);
+                    // 从已选列表中移除
                     selectedNumbers = selectedNumbers.filter(n => n !== num);
                 });
                 button.classList.add('killed');
@@ -830,48 +894,79 @@
             
             updateNumberGrid();
             updateLists();
+            saveData();
         }
         
         // 根据分类获取数字
         function getNumbersByCategory(category, value) {
             switch(category) {
                 case 'zodiac':
+                    // 根据生肖返回对应数字
                     return numbersData
                         .filter(data => data.zodiac === value)
                         .map(data => data.num);
                 case 'tail':
+                    // 根据尾号返回对应数字
                     const tailNum = parseInt(value);
                     return numbersData
                         .filter(data => data.num % 10 === tailNum)
                         .map(data => data.num);
                 case 'head':
+                    // 根据头号返回对应数字
                     const headNum = parseInt(value);
                     return numbersData
                         .filter(data => Math.floor(data.num / 10) === headNum)
                         .map(data => data.num);
                 case 'property':
+                    // 根据属性返回对应数字
                     switch(value) {
-                        case '红波': return numbersData.filter(d => d.color === 'red').map(d => d.num);
-                        case '绿波': return numbersData.filter(d => d.color === 'green').map(d => d.num);
-                        case '蓝波': return numbersData.filter(d => d.color === 'blue').map(d => d.num);
-                        case '大': return numbersData.filter(d => d.num >= 25).map(d => d.num);
-                        case '小': return numbersData.filter(d => d.num < 25).map(d => d.num);
-                        case '单': return numbersData.filter(d => d.num % 2 === 1).map(d => d.num);
-                        case '双': return numbersData.filter(d => d.num % 2 === 0).map(d => d.num);
-                        default: return [];
+                        case '红波':
+                            return numbersData
+                                .filter(data => data.color === 'red')
+                                .map(data => data.num);
+                        case '绿波':
+                            return numbersData
+                                .filter(data => data.color === 'green')
+                                .map(data => data.num);
+                        case '蓝波':
+                            return numbersData
+                                .filter(data => data.color === 'blue')
+                                .map(data => data.num);
+                        case '大':
+                            return numbersData
+                                .filter(data => data.num >= 25)
+                                .map(data => data.num);
+                        case '小':
+                            return numbersData
+                                .filter(data => data.num < 25)
+                                .map(data => data.num);
+                        case '单':
+                            return numbersData
+                                .filter(data => data.num % 2 === 1)
+                                .map(data => data.num);
+                        case '双':
+                            return numbersData
+                                .filter(data => data.num % 2 === 0)
+                                .map(data => data.num);
+                        default:
+                            return [];
                     }
-                default: return [];
+                default:
+                    return [];
             }
         }
         
         // 更新数字网格显示
         function updateNumberGrid() {
             document.querySelectorAll('.number-ball').forEach(ball => {
-                const num = parseInt(ball.dataset.number);
+                const number = parseInt(ball.dataset.number);
                 ball.classList.remove('selected', 'killed');
                 
-                if (selectedNumbers.includes(num)) ball.classList.add('selected');
-                if (killedNumbers.includes(num)) ball.classList.add('killed');
+                if (selectedNumbers.includes(number)) {
+                    ball.classList.add('selected');
+                } else if (killedNumbers.includes(number)) {
+                    ball.classList.add('killed');
+                }
             });
         }
         
@@ -888,22 +983,26 @@
                 selectedNumbers.sort((a, b) => a - b).forEach(num => {
                     const listNumber = document.createElement('div');
                     listNumber.className = 'list-number';
-                    listNumber.textContent = num;
-                    listNumber.dataset.number = num;
                     
-                    // 保持数字原来的颜色
-                    const originalData = numbersData.find(d => d.num === num);
-                    if (originalData) {
-                        listNumber.style.backgroundColor = 
-                            originalData.color === 'red' ? '#ff5252' : 
-                            originalData.color === 'green' ? '#00b894' : '#0984e3';
+                    // 获取数字的颜色
+                    const numberData = numbersData.find(data => data.num === num);
+                    if (numberData) {
+                        if (numberData.color === 'red') {
+                            listNumber.style.background = 'linear-gradient(135deg, #ff5252, #ff7675)';
+                        } else if (numberData.color === 'green') {
+                            listNumber.style.background = 'linear-gradient(135deg, #00b894, #55efc4)';
+                        } else {
+                            listNumber.style.background = 'linear-gradient(135deg, #74b9ff, #0984e3)';
+                        }
                     }
                     
+                    listNumber.textContent = num;
+                    listNumber.dataset.number = num;
                     selectedList.appendChild(listNumber);
                 });
             }
             
-            // 更新已杀列表
+            // 更新已杀列表（强制灰色）
             killedList.innerHTML = '';
             if (killedNumbers.length === 0) {
                 killedList.innerHTML = '<div class="empty-message">暂无已杀号码</div>';
@@ -911,6 +1010,7 @@
                 killedNumbers.sort((a, b) => a - b).forEach(num => {
                     const listNumber = document.createElement('div');
                     listNumber.className = 'list-number';
+                    listNumber.style.background = '#b2bec3'; // 强制灰色背景
                     listNumber.textContent = num;
                     listNumber.dataset.number = num;
                     killedList.appendChild(listNumber);
@@ -920,16 +1020,17 @@
         
         // 从列表中移除数字
         function removeFromList(listNumber, listType) {
-            const num = parseInt(listNumber.dataset.number);
+            const number = parseInt(listNumber.dataset.number);
             
             if (listType === 'selected') {
-                selectedNumbers = selectedNumbers.filter(n => n !== num);
+                selectedNumbers = selectedNumbers.filter(n => n !== number);
             } else if (listType === 'killed') {
-                killedNumbers = killedNumbers.filter(n => n !== num);
+                killedNumbers = killedNumbers.filter(n => n !== number);
             }
             
             updateNumberGrid();
             updateLists();
+            saveData();
         }
         
         // 清空所有
@@ -938,7 +1039,9 @@
             killedNumbers = [];
             updateNumberGrid();
             updateLists();
+            saveData();
             
+            // 重置分类按钮状态
             document.querySelectorAll('.category-btn').forEach(btn => {
                 btn.classList.remove('active', 'killed');
             });
@@ -946,29 +1049,41 @@
         
         // 复制结果
         function copyResults() {
-            const text = `已选: ${selectedNumbers.sort((a,b)=>a-b).join(', ') || '无'}\n已杀: ${killedNumbers.sort((a,b)=>a-b).join(', ') || '无'}`;
+            if (selectedNumbers.length === 0) {
+                alert('没有已选号码可复制');
+                return;
+            }
             
-            navigator.clipboard.writeText(text).then(() => {
-                alert('结果已复制到剪贴板');
-            }).catch(err => {
-                console.error('复制失败:', err);
-                alert('复制失败，请手动复制');
-            });
+            // 只复制已选号码，用逗号分隔
+            const numbersToCopy = selectedNumbers.sort((a, b) => a - b).join(', ');
+            
+            navigator.clipboard.writeText(numbersToCopy)
+                .then(() => {
+                    alert('已选号码已复制到剪贴板: ' + numbersToCopy);
+                })
+                .catch(err => {
+                    console.error('复制失败: ', err);
+                    alert('复制失败，请手动复制');
+                });
         }
         
         // 分享结果
         function shareResults() {
-            const text = `已选: ${selectedNumbers.sort((a,b)=>a-b).join(', ') || '无'}\n已杀: ${killedNumbers.sort((a,b)=>a-b).join(', ') || '无'}`;
+            const selectedText = selectedNumbers.length > 0 ? `已选: ${selectedNumbers.sort((a, b) => a - b).join(', ')}` : '已选: 无';
+            const killedText = killedNumbers.length > 0 ? `已杀: ${killedNumbers.sort((a, b) => a - b).join(', ')}` : '已杀: 无';
+            const resultText = `${selectedText} | ${killedText}`;
             
             if (navigator.share) {
                 navigator.share({
                     title: '挑码助手结果',
-                    text: text
-                }).catch(err => {
-                    console.error('分享失败:', err);
-                    copyResults();
+                    text: resultText
+                })
+                .catch(err => {
+                    console.error('分享失败: ', err);
+                    alert('分享失败，请手动复制结果');
                 });
             } else {
+                // 如果不支持Web Share API，则复制到剪贴板
                 copyResults();
             }
         }
