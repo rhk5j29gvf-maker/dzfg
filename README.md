@@ -226,6 +226,122 @@
             transform: scale(0.98);
         }
         
+        .control-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .animation-section {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            border: 2px solid #9b59b6;
+        }
+        
+        .animation-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #9b59b6;
+            color: #9b59b6;
+        }
+        
+        .animation-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timer {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .timer-value {
+            font-size: 1.2rem;
+            color: #e74c3c;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .animation-groups {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .animation-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .group-label-small {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .animation-numbers {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .animation-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.1s ease;
+        }
+        
+        .animation-number.rolling {
+            animation: pulse 0.3s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+        
+        .comma {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #9b59b6;
+        }
+        
         .group-result-section {
             background: white;
             border-radius: 8px;
@@ -533,10 +649,23 @@
                     </div>
                     <div class="control-buttons">
                         <button class="control-btn clear-btn" id="clearBtn">清空选择</button>
-                        <button class="control-btn group-btn" id="groupBtn">生成组号</button>
+                        <button class="control-btn group-btn" id="groupBtn">生成五组</button>
                         <button class="control-btn copy-btn" id="copyBtn">复制结果</button>
                         <button class="control-btn copy-group-btn" id="copyGroupBtn">复制组号</button>
                         <button class="control-btn select-all-btn" id="selectAllBtn">全部选中</button>
+                    </div>
+                </div>
+                
+                <div class="animation-section" id="animationSection" style="display: none;">
+                    <div class="animation-title">生成五组号码动画</div>
+                    <div class="animation-container">
+                        <div class="timer">剩余时间: <span id="timerValue" class="timer-value">8.88</span>秒</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="animation-groups" id="animationGroups">
+                            <!-- 五组动画将通过JavaScript动态生成 -->
+                        </div>
                     </div>
                 </div>
                 
@@ -685,6 +814,12 @@
         let killedNumbers = [];
         let clickTimers = {};
         let allGroups = []; // 存储所有生成的组号
+        let isAnimating = false; // 是否正在动画中
+        let animationInterval = null; // 动画定时器
+        let animationTimeout = null; // 动画结束定时器
+        let animationStartTime = null; // 动画开始时间
+        let animationDuration = 8880; // 动画持续时间8.88秒（8880毫秒）
+        let animationGroupsData = []; // 存储动画中的五组数据
         
         // 初始化函数
         function init() {
@@ -892,7 +1027,7 @@
             
             // 控制按钮事件
             document.getElementById('clearBtn').addEventListener('click', clearAll);
-            document.getElementById('groupBtn').addEventListener('click', generateGroup);
+            document.getElementById('groupBtn').addEventListener('click', generateFiveGroups);
             document.getElementById('copyBtn').addEventListener('click', copyResults);
             document.getElementById('copyGroupBtn').addEventListener('click', copyGroups);
             document.getElementById('selectAllBtn').addEventListener('click', selectAll);
@@ -1171,27 +1306,179 @@
             saveData();
         }
         
-        // 生成组号
-        function generateGroup() {
+        // 生成五组号码动画
+        function generateFiveGroups() {
+            if (isAnimating) {
+                return; // 如果正在动画中，不执行
+            }
+            
             if (selectedNumbers.length < 3) {
                 alert('至少需要3个已选号码才能生成组号');
                 return;
             }
             
-            // 复制已选号码并随机排序
-            const shuffled = [...selectedNumbers].sort(() => Math.random() - 0.5);
+            // 禁用生成组号按钮
+            document.getElementById('groupBtn').classList.add('disabled');
+            document.getElementById('groupBtn').disabled = true;
             
-            // 取前3个号码
-            const selectedThree = shuffled.slice(0, 3).sort((a, b) => a - b);
+            // 显示动画区域
+            document.getElementById('animationSection').style.display = 'block';
             
-            // 保存当前组号到所有组号列表中
-            allGroups.push(selectedThree);
+            // 隐藏组号结果区域
+            document.getElementById('groupResultSection').style.display = 'none';
             
-            // 更新组号显示
-            updateGroupDisplay();
+            // 获取动画容器
+            const animationGroupsEl = document.getElementById('animationGroups');
+            animationGroupsEl.innerHTML = '';
             
-            // 保存数据
-            saveData();
+            // 清空之前的动画数据
+            animationGroupsData = [];
+            
+            // 创建五组动画容器
+            for (let i = 0; i < 5; i++) {
+                const groupContainer = document.createElement('div');
+                groupContainer.className = 'animation-group';
+                groupContainer.id = `animationGroup${i+1}`;
+                
+                const groupLabel = document.createElement('div');
+                groupLabel.className = 'group-label-small';
+                groupLabel.textContent = `第${i+1}组:`;
+                
+                const numbersContainer = document.createElement('div');
+                numbersContainer.className = 'animation-numbers';
+                numbersContainer.id = `animationNumbers${i+1}`;
+                
+                // 创建三个数字和一个逗号
+                for (let j = 0; j < 3; j++) {
+                    const numEl = document.createElement('div');
+                    numEl.className = 'animation-number rolling';
+                    numEl.id = `animationNum${i+1}-${j+1}`;
+                    numEl.textContent = '0';
+                    numbersContainer.appendChild(numEl);
+                    
+                    if (j < 2) {
+                        const comma = document.createElement('div');
+                        comma.className = 'comma';
+                        comma.textContent = ',';
+                        numbersContainer.appendChild(comma);
+                    }
+                }
+                
+                groupContainer.appendChild(groupLabel);
+                groupContainer.appendChild(numbersContainer);
+                animationGroupsEl.appendChild(groupContainer);
+                
+                // 初始化动画数据
+                animationGroupsData.push([0, 0, 0]);
+            }
+            
+            // 获取计时器元素
+            const timerEl = document.getElementById('timerValue');
+            const progressFill = document.getElementById('progressFill');
+            
+            // 设置初始状态
+            isAnimating = true;
+            animationStartTime = Date.now();
+            
+            // 清空之前的定时器
+            if (animationInterval) clearInterval(animationInterval);
+            if (animationTimeout) clearTimeout(animationTimeout);
+            
+            // 更新动画函数
+            function updateAnimation() {
+                const currentTime = Date.now();
+                const elapsedTime = currentTime - animationStartTime;
+                const remainingTime = Math.max(0, animationDuration - elapsedTime);
+                
+                // 更新计时器显示
+                timerEl.textContent = (remainingTime / 1000).toFixed(2);
+                
+                // 更新进度条
+                const progress = Math.min(100, (elapsedTime / animationDuration) * 100);
+                progressFill.style.width = progress + '%';
+                
+                // 如果动画结束
+                if (remainingTime <= 0) {
+                    endAnimation();
+                    return;
+                }
+                
+                // 更新五组号码的显示
+                for (let i = 0; i < 5; i++) {
+                    // 随机选择三个不同的数字
+                    const shuffled = [...selectedNumbers].sort(() => Math.random() - 0.5);
+                    const selectedThree = shuffled.slice(0, 3);
+                    
+                    // 更新动画数据
+                    animationGroupsData[i] = selectedThree;
+                    
+                    // 更新显示
+                    for (let j = 0; j < 3; j++) {
+                        const numEl = document.getElementById(`animationNum${i+1}-${j+1}`);
+                        if (numEl) {
+                            numEl.textContent = selectedThree[j];
+                        }
+                    }
+                }
+            }
+            
+            // 结束动画函数
+            function endAnimation() {
+                isAnimating = false;
+                
+                // 移除滚动动画类
+                for (let i = 0; i < 5; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        const numEl = document.getElementById(`animationNum${i+1}-${j+1}`);
+                        if (numEl) {
+                            numEl.classList.remove('rolling');
+                        }
+                    }
+                }
+                
+                // 清空定时器
+                clearInterval(animationInterval);
+                clearTimeout(animationTimeout);
+                
+                // 获取最终选择的五组号码
+                const finalFiveGroups = [];
+                for (let i = 0; i < 5; i++) {
+                    const group = animationGroupsData[i].slice().sort((a, b) => a - b);
+                    finalFiveGroups.push(group);
+                }
+                
+                // 保存当前组号到所有组号列表中
+                finalFiveGroups.forEach(group => {
+                    allGroups.push(group);
+                });
+                
+                // 隐藏动画区域
+                document.getElementById('animationSection').style.display = 'none';
+                
+                // 启用生成组号按钮
+                document.getElementById('groupBtn').classList.remove('disabled');
+                document.getElementById('groupBtn').disabled = false;
+                
+                // 更新组号显示
+                updateGroupDisplay();
+                
+                // 保存数据
+                saveData();
+                
+                // 显示最终选择的数字
+                let resultText = '五组号码生成完成:\n';
+                finalFiveGroups.forEach((group, index) => {
+                    resultText += `第${index+1}组: ${group.join(', ')}\n`;
+                });
+                alert(resultText);
+            }
+            
+            // 开始动画
+            animationInterval = setInterval(updateAnimation, 50); // 每50毫秒更新一次
+            animationTimeout = setTimeout(endAnimation, animationDuration);
+            
+            // 立即更新一次
+            updateAnimation();
         }
         
         // 更新组号显示
@@ -1246,8 +1533,8 @@
                 return;
             }
             
-            // 将所有组号转换为文本，每组占一行
-            const groupsText = allGroups.map(group => group.join(', ')).join('\n');
+            // 将所有组号转换为文本，每组占一行，并在每行后面加上"三中三2"
+            const groupsText = allGroups.map(group => group.join(', ') + ' 三中三2').join('\n');
             
             navigator.clipboard.writeText(groupsText)
                 .then(() => {
