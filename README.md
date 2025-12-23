@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>挑码助手</title>
+    <title>挑码助手专业版</title>
     <style>
         * {
             margin: 0;
@@ -24,6 +24,7 @@
         
         .container {
             width: 100%;
+            max-width: 500px;
             margin: 0 auto;
             background: white;
             border-radius: 10px;
@@ -40,7 +41,7 @@
         }
         
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 8px;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
@@ -96,7 +97,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 1.4rem; /* 增大号码字体 */
             color: white;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -107,19 +108,19 @@
         }
         
         .number-ball.red {
-            background: linear-gradient(135deg, #ff5252, #ff7675);
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
         }
         
         .number-ball.green {
-            background: linear-gradient(135deg, #00b894, #55efc4);
+            background: linear-gradient(135deg, #27ae60, #229954);
         }
         
         .number-ball.blue {
-            background: linear-gradient(135deg, #0984e3, #74b9ff);
+            background: linear-gradient(135deg, #2980b9, #1a5276);
         }
         
         .number-ball.selected {
-            opacity: 0.6;
+            opacity: 0.7;
             transform: scale(0.9);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
@@ -127,13 +128,13 @@
         .number-ball.killed {
             opacity: 0.4;
             transform: scale(0.85);
-            background: #b2bec3 !important;
+            background: #7f8c8d !important;
         }
         
         .number-ball.selected::after {
             content: "✓";
             position: absolute;
-            font-size: 16px;
+            font-size: 20px; /* 增大选中标记 */
             color: #00b894;
             font-weight: bold;
         }
@@ -141,21 +142,46 @@
         .number-ball.killed::after {
             content: "✕";
             position: absolute;
-            font-size: 16px;
+            font-size: 20px; /* 增大已杀标记 */
             color: #ff7675;
             font-weight: bold;
         }
         
         .zodiac-label {
-            font-size: 8px;
-            margin-top: 2px;
+            font-size: 13px; /* 增大生肖字体 */
+            margin-top: 4px; /* 增加上边距 */
             opacity: 0.9;
+            font-weight: bold;
+        }
+        
+        .control-section {
+            margin: 10px 0;
+        }
+        
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .counter {
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+        
+        .selected-count {
+            color: #27ae60;
+        }
+        
+        .killed-count {
+            color: #e74c3c;
         }
         
         .control-buttons {
             display: flex;
+            flex-wrap: wrap;
             gap: 8px;
-            margin: 10px 0;
         }
         
         .control-btn {
@@ -168,25 +194,106 @@
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-width: 100px;
         }
         
         .clear-btn {
-            background: linear-gradient(135deg, #ff7675, #ff5252);
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .group-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
         }
         
         .copy-btn {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
         }
         
-        .share-btn {
-            background: linear-gradient(135deg, #00b894, #00a085);
+        .copy-group-btn {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+        }
+        
+        .select-all-btn {
+            background: linear-gradient(135deg, #27ae60, #229954);
             color: white;
         }
         
         .control-btn:active {
             transform: scale(0.98);
+        }
+        
+        .group-result-section {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            border: 2px solid #9b59b6;
+        }
+        
+        .group-result-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #9b59b6;
+            color: #9b59b6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .clear-groups-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        
+        .clear-groups-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .group-result {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .group-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .group-row:last-child {
+            border-bottom: none;
+        }
+        
+        .group-label {
+            font-weight: bold;
+            color: #2c3e50;
+            min-width: 50px;
+        }
+        
+        .group-numbers {
+            flex: 1;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 1rem;
+            color: #2c3e50;
         }
         
         .lists-container {
@@ -213,13 +320,13 @@
         }
         
         .selected-list .list-title {
-            color: #00b894;
-            border-bottom-color: #00b894;
+            color: #27ae60;
+            border-bottom-color: #27ae60;
         }
         
         .killed-list .list-title {
-            color: #ff7675;
-            border-bottom-color: #ff7675;
+            color: #e74c3c;
+            border-bottom-color: #e74c3c;
         }
         
         .list-items {
@@ -266,7 +373,7 @@
         
         .section-title i {
             margin-right: 6px;
-            color: #0984e3;
+            color: #2980b9;
         }
         
         .category-buttons {
@@ -305,27 +412,27 @@
         }
         
         .category-btn.red {
-            background: linear-gradient(135deg, #ff7675, #ff5252);
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
         }
         
         .category-btn.green {
-            background: linear-gradient(135deg, #00b894, #00a085);
+            background: linear-gradient(135deg, #27ae60, #229954);
             color: white;
         }
         
         .category-btn.blue {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
         }
         
         .category-btn.active {
-            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            background: linear-gradient(135deg, #f39c12, #e67e22);
             color: white;
         }
         
         .category-btn.killed {
-            background: linear-gradient(135deg, #b2bec3, #636e72);
+            background: linear-gradient(135deg, #7f8c8d, #616a6b);
             color: white;
         }
         
@@ -369,7 +476,7 @@
         
         .zodiac-conflict {
             font-size: 0.8rem;
-            color: #ff7675;
+            color: #e74c3c;
             margin-bottom: 8px;
         }
         
@@ -405,36 +512,54 @@
 <body>
     <div class="container">
         <header>
-            <h1>挑码助手</h1>
-            <p class="subtitle">智能选号，轻松挑码</p>
+            <h1>挑码助手专业版</h1>
+            <p class="subtitle">智能选号，组号生成，批量操作</p>
         </header>
         
         <div class="main-content">
             <div class="panel">
                 <div class="panel-title">
-                    <span><i>●</i> 数字选号区</span>
+                    <span><i>●</i> 数字选号区 (1-49)</span>
                 </div>
                 
                 <div class="numbers-grid" id="numbersGrid">
                     <!-- 数字1-49将通过JavaScript动态生成 -->
                 </div>
                 
-                <div class="control-buttons">
-                    <button class="control-btn clear-btn" id="clearBtn">清空选择</button>
-                    <button class="control-btn copy-btn" id="copyBtn">复制结果</button>
-                    <button class="control-btn share-btn" id="shareBtn">分享结果</button>
+                <div class="control-section">
+                    <div class="control-header">
+                        <div class="counter">已选: <span id="selectedCount" class="selected-count">0</span> | 已杀: <span id="killedCount" class="killed-count">0</span></div>
+                        <div class="counter">剩余: <span id="remainingCount" class="">49</span></div>
+                    </div>
+                    <div class="control-buttons">
+                        <button class="control-btn clear-btn" id="clearBtn">清空选择</button>
+                        <button class="control-btn group-btn" id="groupBtn">生成组号</button>
+                        <button class="control-btn copy-btn" id="copyBtn">复制结果</button>
+                        <button class="control-btn copy-group-btn" id="copyGroupBtn">复制组号</button>
+                        <button class="control-btn select-all-btn" id="selectAllBtn">全部选中</button>
+                    </div>
+                </div>
+                
+                <div class="group-result-section" id="groupResultSection" style="display: none;">
+                    <div class="group-result-title">
+                        <span>生成的组号 (<span id="groupCount">0</span>)</span>
+                        <button class="clear-groups-btn" id="clearGroupsBtn">清空组号</button>
+                    </div>
+                    <div class="group-result" id="groupResult">
+                        <!-- 组号行将通过JavaScript动态生成 -->
+                    </div>
                 </div>
                 
                 <div class="lists-container">
                     <div class="list-box selected-list">
-                        <div class="list-title">已选号码</div>
+                        <div class="list-title">已选号码 (<span id="selectedListCount">0</span>)</div>
                         <div class="list-items" id="selectedList">
                             <div class="empty-message">暂无已选号码</div>
                         </div>
                     </div>
                     
                     <div class="list-box killed-list">
-                        <div class="list-title">已杀号码</div>
+                        <div class="list-title">已杀号码 (<span id="killedListCount">0</span>)</div>
                         <div class="list-items" id="killedList">
                             <div class="empty-message">暂无已杀号码</div>
                         </div>
@@ -493,7 +618,7 @@
         </div>
         
         <footer>
-            <p>挑码助手 &copy; 2023 - 专业选号工具</p>
+            <p>挑码助手专业版 &copy; 2023 - 双击数字标记为"已杀"，单击切换"已选"状态</p>
         </footer>
     </div>
 
@@ -559,6 +684,7 @@
         let selectedNumbers = [];
         let killedNumbers = [];
         let clickTimers = {};
+        let allGroups = []; // 存储所有生成的组号
         
         // 初始化函数
         function init() {
@@ -567,13 +693,15 @@
             renderCategoryButtons();
             renderZodiacChart();
             setupEventListeners();
-            console.log('挑码助手初始化完成');
+            updateCounters();
+            console.log('挑码助手专业版初始化完成');
         }
         
         // 加载本地存储的数据
         function loadData() {
             const savedSelected = localStorage.getItem('selectedNumbers');
             const savedKilled = localStorage.getItem('killedNumbers');
+            const savedGroups = localStorage.getItem('generatedGroups');
             
             if (savedSelected) {
                 selectedNumbers = JSON.parse(savedSelected);
@@ -582,12 +710,18 @@
             if (savedKilled) {
                 killedNumbers = JSON.parse(savedKilled);
             }
+            
+            if (savedGroups) {
+                allGroups = JSON.parse(savedGroups);
+                updateGroupDisplay();
+            }
         }
         
         // 保存数据到本地存储
         function saveData() {
             localStorage.setItem('selectedNumbers', JSON.stringify(selectedNumbers));
             localStorage.setItem('killedNumbers', JSON.stringify(killedNumbers));
+            localStorage.setItem('generatedGroups', JSON.stringify(allGroups));
         }
         
         // 渲染数字网格
@@ -699,11 +833,11 @@
                     const numberData = numbersData.find(data => data.num === num);
                     if (numberData) {
                         if (numberData.color === 'red') {
-                            numberElement.style.background = 'linear-gradient(135deg, #ff7675, #ff5252)';
+                            numberElement.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
                         } else if (numberData.color === 'green') {
-                            numberElement.style.background = 'linear-gradient(135deg, #00b894, #00a085)';
+                            numberElement.style.background = 'linear-gradient(135deg, #27ae60, #229954)';
                         } else {
-                            numberElement.style.background = 'linear-gradient(135deg, #74b9ff, #0984e3)';
+                            numberElement.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
                         }
                     }
                     
@@ -758,8 +892,11 @@
             
             // 控制按钮事件
             document.getElementById('clearBtn').addEventListener('click', clearAll);
+            document.getElementById('groupBtn').addEventListener('click', generateGroup);
             document.getElementById('copyBtn').addEventListener('click', copyResults);
-            document.getElementById('shareBtn').addEventListener('click', shareResults);
+            document.getElementById('copyGroupBtn').addEventListener('click', copyGroups);
+            document.getElementById('selectAllBtn').addEventListener('click', selectAll);
+            document.getElementById('clearGroupsBtn').addEventListener('click', clearGroups);
             
             // 列表项点击事件（从列表中移除）
             document.getElementById('selectedList').addEventListener('click', function(e) {
@@ -790,6 +927,7 @@
             }
             
             updateLists();
+            updateCounters();
             saveData();
         }
         
@@ -810,6 +948,7 @@
             }
             
             updateLists();
+            updateCounters();
             saveData();
         }
         
@@ -844,6 +983,7 @@
             
             updateNumberGrid();
             updateLists();
+            updateCounters();
             saveData();
         }
         
@@ -878,6 +1018,7 @@
             
             updateNumberGrid();
             updateLists();
+            updateCounters();
             saveData();
         }
         
@@ -972,11 +1113,11 @@
                     const numberData = numbersData.find(data => data.num === num);
                     if (numberData) {
                         if (numberData.color === 'red') {
-                            listNumber.style.background = 'linear-gradient(135deg, #ff5252, #ff7675)';
+                            listNumber.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
                         } else if (numberData.color === 'green') {
-                            listNumber.style.background = 'linear-gradient(135deg, #00b894, #55efc4)';
+                            listNumber.style.background = 'linear-gradient(135deg, #27ae60, #229954)';
                         } else {
-                            listNumber.style.background = 'linear-gradient(135deg, #74b9ff, #0984e3)';
+                            listNumber.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
                         }
                     }
                     
@@ -994,12 +1135,24 @@
                 killedNumbers.sort((a, b) => a - b).forEach(num => {
                     const listNumber = document.createElement('div');
                     listNumber.className = 'list-number';
-                    listNumber.style.background = '#b2bec3';
+                    listNumber.style.background = '#7f8c8d';
                     listNumber.textContent = num;
                     listNumber.dataset.number = num;
                     killedList.appendChild(listNumber);
                 });
             }
+            
+            // 更新列表计数
+            document.getElementById('selectedListCount').textContent = selectedNumbers.length;
+            document.getElementById('killedListCount').textContent = killedNumbers.length;
+        }
+        
+        // 更新计数器
+        function updateCounters() {
+            document.getElementById('selectedCount').textContent = selectedNumbers.length;
+            document.getElementById('killedCount').textContent = killedNumbers.length;
+            const remaining = 49 - selectedNumbers.length - killedNumbers.length;
+            document.getElementById('remainingCount').textContent = remaining;
         }
         
         // 从列表中移除数字
@@ -1014,7 +1167,129 @@
             
             updateNumberGrid();
             updateLists();
+            updateCounters();
             saveData();
+        }
+        
+        // 生成组号
+        function generateGroup() {
+            if (selectedNumbers.length < 3) {
+                alert('至少需要3个已选号码才能生成组号');
+                return;
+            }
+            
+            // 复制已选号码并随机排序
+            const shuffled = [...selectedNumbers].sort(() => Math.random() - 0.5);
+            
+            // 取前3个号码
+            const selectedThree = shuffled.slice(0, 3).sort((a, b) => a - b);
+            
+            // 保存当前组号到所有组号列表中
+            allGroups.push(selectedThree);
+            
+            // 更新组号显示
+            updateGroupDisplay();
+            
+            // 保存数据
+            saveData();
+        }
+        
+        // 更新组号显示
+        function updateGroupDisplay() {
+            const groupResult = document.getElementById('groupResult');
+            
+            // 清空现有显示
+            groupResult.innerHTML = '';
+            
+            if (allGroups.length === 0) {
+                // 如果没有组号，隐藏组号区域
+                document.getElementById('groupResultSection').style.display = 'none';
+                return;
+            }
+            
+            // 显示组号区域
+            document.getElementById('groupResultSection').style.display = 'block';
+            
+            // 更新组号计数
+            document.getElementById('groupCount').textContent = allGroups.length;
+            
+            // 显示所有组号（最新的在顶部）
+            allGroups.slice().reverse().forEach((group, index) => {
+                const groupRow = document.createElement('div');
+                groupRow.className = 'group-row';
+                
+                const groupLabel = document.createElement('div');
+                groupLabel.className = 'group-label';
+                groupLabel.textContent = `组${allGroups.length - index}:`;
+                
+                const groupNumbers = document.createElement('div');
+                groupNumbers.className = 'group-numbers';
+                groupNumbers.textContent = group.join(', ');
+                
+                groupRow.appendChild(groupLabel);
+                groupRow.appendChild(groupNumbers);
+                groupResult.appendChild(groupRow);
+            });
+        }
+        
+        // 清空组号
+        function clearGroups() {
+            allGroups = [];
+            updateGroupDisplay();
+            saveData();
+        }
+        
+        // 复制组号
+        function copyGroups() {
+            if (allGroups.length === 0) {
+                alert('请先生成组号');
+                return;
+            }
+            
+            // 将所有组号转换为文本，每组占一行
+            const groupsText = allGroups.map(group => group.join(', ')).join('\n');
+            
+            navigator.clipboard.writeText(groupsText)
+                .then(() => {
+                    alert('所有组号已复制到剪贴板:\n' + groupsText);
+                })
+                .catch(err => {
+                    console.error('复制失败: ', err);
+                    // 备用复制方法
+                    const textArea = document.createElement('textarea');
+                    textArea.value = groupsText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        alert('所有组号已复制到剪贴板:\n' + groupsText);
+                    } catch (err) {
+                        console.error('备用复制方法也失败: ', err);
+                        alert('复制失败，请手动复制: \n' + groupsText);
+                    }
+                    document.body.removeChild(textArea);
+                });
+        }
+        
+        // 全部选中
+        function selectAll() {
+            // 获取所有未被杀掉的号码
+            const allNumbers = Array.from({length: 49}, (_, i) => i + 1);
+            const availableNumbers = allNumbers.filter(num => !killedNumbers.includes(num));
+            
+            // 将所有可用号码添加到已选列表
+            availableNumbers.forEach(num => {
+                if (!selectedNumbers.includes(num)) {
+                    selectedNumbers.push(num);
+                }
+            });
+            
+            updateNumberGrid();
+            updateLists();
+            updateCounters();
+            saveData();
+            
+            alert(`已成功选中 ${availableNumbers.length} 个号码`);
         }
         
         // 清空所有
@@ -1023,6 +1298,7 @@
             killedNumbers = [];
             updateNumberGrid();
             updateLists();
+            updateCounters();
             saveData();
             
             // 重置分类按钮状态
@@ -1047,29 +1323,20 @@
                 })
                 .catch(err => {
                     console.error('复制失败: ', err);
-                    alert('复制失败，请手动复制');
+                    // 备用复制方法
+                    const textArea = document.createElement('textarea');
+                    textArea.value = numbersToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        alert('已选号码已复制到剪贴板: ' + numbersToCopy);
+                    } catch (err) {
+                        console.error('备用复制方法也失败: ', err);
+                        alert('复制失败，请手动复制: ' + numbersToCopy);
+                    }
+                    document.body.removeChild(textArea);
                 });
-        }
-        
-        // 分享结果
-        function shareResults() {
-            const selectedText = selectedNumbers.length > 0 ? `已选: ${selectedNumbers.sort((a, b) => a - b).join(', ')}` : '已选: 无';
-            const killedText = killedNumbers.length > 0 ? `已杀: ${killedNumbers.sort((a, b) => a - b).join(', ')}` : '已杀: 无';
-            const resultText = `${selectedText} | ${killedText}`;
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: '挑码助手结果',
-                    text: resultText
-                })
-                .catch(err => {
-                    console.error('分享失败: ', err);
-                    alert('分享失败，请手动复制结果');
-                });
-            } else {
-                // 如果不支持Web Share API，则复制到剪贴板
-                copyResults();
-            }
         }
         
         // 初始化应用
