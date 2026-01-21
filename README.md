@@ -97,7 +97,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.4rem; /* 增大号码字体 */
+            font-size: 1.4rem;
             color: white;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -134,7 +134,7 @@
         .number-ball.selected::after {
             content: "✓";
             position: absolute;
-            font-size: 20px; /* 增大选中标记 */
+            font-size: 20px;
             color: #00b894;
             font-weight: bold;
         }
@@ -142,14 +142,14 @@
         .number-ball.killed::after {
             content: "✕";
             position: absolute;
-            font-size: 20px; /* 增大已杀标记 */
+            font-size: 20px;
             color: #ff7675;
             font-weight: bold;
         }
         
         .zodiac-label {
-            font-size: 13px; /* 增大生肖字体 */
-            margin-top: 4px; /* 增加上边距 */
+            font-size: 13px;
+            margin-top: 4px;
             opacity: 0.9;
             font-weight: bold;
         }
@@ -160,7 +160,7 @@
         
         .control-header {
             display: flex;
-            justify-content: space-between;
+            justify-content:空间-between;
             align-items: center;
             margin-bottom: 8px;
         }
@@ -219,6 +219,11 @@
         
         .select-all-btn {
             background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+        
+        .random-btn {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
             color: white;
         }
         
@@ -576,7 +581,7 @@
         }
         
         .zodiac-item {
-            background: white;
+           背景: white;
             border-radius: 6px;
             padding: 10px;
             text-align: center;
@@ -653,6 +658,7 @@
                         <button class="control-btn copy-btn" id="copyBtn">复制结果</button>
                         <button class="control-btn copy-group-btn" id="copyGroupBtn">复制组号</button>
                         <button class="control-btn select-all-btn" id="selectAllBtn">全部选中</button>
+                        <button class="control-btn random-btn" id="randomBtn">随机排列</button>
                     </div>
                 </div>
                 
@@ -1032,17 +1038,34 @@
             document.getElementById('copyGroupBtn').addEventListener('click', copyGroups);
             document.getElementById('selectAllBtn').addEventListener('click', selectAll);
             document.getElementById('clearGroupsBtn').addEventListener('click', clearGroups);
+            document.getElementById('randomBtn').addEventListener('click', randomizeSelected);
+        }
+        
+        // 随机排列已选号码功能
+        function randomizeSelected() {
+            if (selectedNumbers.length === 0) {
+                alert('请先选择号码再进行随机排列');
+                return;
+            }
             
-            // 列表项点击事件（从列表中移除）
-            document.getElementById('selectedList').addEventListener('click', function(e) {
-                const listNumber = e.target.closest('.list-number');
-                if (listNumber) removeFromList(listNumber, 'selected');
-            });
+            // 使用Fisher-Yates洗牌算法随机排列已选号码
+            const shuffled = [...selectedNumbers];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
             
-            document.getElementById('killedList').addEventListener('click', function(e) {
-                const listNumber = e.target.closest('.list-number');
-                if (listNumber) removeFromList(listNumber, 'killed');
-            });
+            // 更新已选号码数组
+            selectedNumbers = shuffled;
+            
+            // 更新显示
+            updateNumberGrid();
+            updateLists();
+            updateCounters();
+            saveData();
+            
+            // 显示随机排列结果
+            alert(`已选号码已随机排列:\n${selectedNumbers.join(', ')}`);
         }
         
         // 处理数字单击
@@ -1240,7 +1263,7 @@
             if (selectedNumbers.length === 0) {
                 selectedList.innerHTML = '<div class="empty-message">暂无已选号码</div>';
             } else {
-                selectedNumbers.sort((a, b) => a - b).forEach(num => {
+                selectedNumbers.forEach(num => {
                     const listNumber = document.createElement('div');
                     listNumber.className = 'list-number';
                     
@@ -1267,7 +1290,7 @@
             if (killedNumbers.length === 0) {
                 killedList.innerHTML = '<div class="empty-message">暂无已杀号码</div>';
             } else {
-                killedNumbers.sort((a, b) => a - b).forEach(num => {
+                killedNumbers.forEach(num => {
                     const listNumber = document.createElement('div');
                     listNumber.className = 'list-number';
                     listNumber.style.background = '#7f8c8d';
@@ -1312,8 +1335,8 @@
                 return; // 如果正在动画中，不执行
             }
             
-            if (selectedNumbers.length < 3) {
-                alert('至少需要3个已选号码才能生成组号');
+            if (selectedNumbers.length < 4) {
+                alert('至少需要4个已选号码才能生成组号');
                 return;
             }
             
@@ -1348,15 +1371,15 @@
                 numbersContainer.className = 'animation-numbers';
                 numbersContainer.id = `animationNumbers${i+1}`;
                 
-                // 创建三个数字和一个逗号
-                for (let j = 0; j < 3; j++) {
+                // 创建四个数字和三个逗号
+                for (let j = 0; j < 4; j++) {
                     const numEl = document.createElement('div');
                     numEl.className = 'animation-number rolling';
                     numEl.id = `animationNum${i+1}-${j+1}`;
                     numEl.textContent = '0';
                     numbersContainer.appendChild(numEl);
                     
-                    if (j < 2) {
+                    if (j < 3) {
                         const comma = document.createElement('div');
                         comma.className = 'comma';
                         comma.textContent = ',';
@@ -1369,7 +1392,7 @@
                 animationGroupsEl.appendChild(groupContainer);
                 
                 // 初始化动画数据
-                animationGroupsData.push([0, 0, 0]);
+                animationGroupsData.push([0, 0, 0, 0]);
             }
             
             // 获取计时器元素
@@ -1405,18 +1428,33 @@
                 
                 // 更新五组号码的显示
                 for (let i = 0; i < 5; i++) {
-                    // 随机选择三个不同的数字
+                    // 随机选择四个不同的数字 - 确保不会重复
                     const shuffled = [...selectedNumbers].sort(() => Math.random() - 0.5);
-                    const selectedThree = shuffled.slice(0, 3);
+                    const selectedFour = [];
+                    
+                    // 确保选择的数字不重复
+                    for (let j = 0; j < shuffled.length && selectedFour.length < 4; j++) {
+                        if (!selectedFour.includes(shuffled[j])) {
+                            selectedFour.push(shuffled[j]);
+                        }
+                    }
+                    
+                    // 如果不足4个数字，用随机数补充
+                    while (selectedFour.length < 4) {
+                        const randomNum = selectedNumbers[Math.floor(Math.random() * selectedNumbers.length)];
+                        if (!selectedFour.includes(randomNum)) {
+                            selectedFour.push(randomNum);
+                        }
+                    }
                     
                     // 更新动画数据
-                    animationGroupsData[i] = selectedThree;
+                    animationGroupsData[i] = selectedFour;
                     
                     // 更新显示
-                    for (let j = 0; j < 3; j++) {
+                    for (let j = 0; j < 4; j++) {
                         const numEl = document.getElementById(`animationNum${i+1}-${j+1}`);
                         if (numEl) {
-                            numEl.textContent = selectedThree[j];
+                            numEl.textContent = selectedFour[j];
                         }
                     }
                 }
@@ -1428,7 +1466,7 @@
                 
                 // 移除滚动动画类
                 for (let i = 0; i < 5; i++) {
-                    for (let j = 0; j < 3; j++) {
+                    for (let j = 0; j < 4; j++) {
                         const numEl = document.getElementById(`animationNum${i+1}-${j+1}`);
                         if (numEl) {
                             numEl.classList.remove('rolling');
@@ -1474,7 +1512,7 @@
             }
             
             // 开始动画
-            animationInterval = setInterval(updateAnimation, 50); // 每50毫秒更新一次
+            animationInterval = setInterval(updateAnimation, 50);
             animationTimeout = setTimeout(endAnimation, animationDuration);
             
             // 立即更新一次
@@ -1533,7 +1571,7 @@
                 return;
             }
             
-            // 将所有组号转换为文本，每组占一行，并在每行后面加上"三中三2"
+            // 保持"三中三2"字样
             const groupsText = allGroups.map(group => group.join(', ') + ' 三中三2').join('\n');
             
             navigator.clipboard.writeText(groupsText)
