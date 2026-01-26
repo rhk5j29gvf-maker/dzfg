@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
         
@@ -18,17 +18,18 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
-            padding: 10px;
+            padding: 12px;
             touch-action: manipulation;
+            -webkit-overflow-scrolling: touch;
         }
         
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 100%;
             margin: 0 auto;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
         
@@ -36,56 +37,59 @@
             background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
             color: white;
             text-align: center;
-            padding: 15px 10px;
+            padding: 20px 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         h1 {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
         }
         
         .subtitle {
-            font-size: 0.9rem;
+            font-size: 1.2rem;
             opacity: 0.9;
+            font-weight: 500;
         }
         
         .main-content {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding: 10px;
+            gap: 15px;
+            padding: 15px;
         }
         
         .panel {
             background: #f9f9f9;
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
         
         .panel-title {
-            font-size: 1.1rem;
+            font-size: 1.5rem;
             color: #2c3e50;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #ffa726;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #ffa726;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            font-weight: 600;
         }
         
         .panel-title i {
-            margin-right: 8px;
+            margin-right: 12px;
             color: #ff6b6b;
         }
         
         .numbers-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 20px;
         }
         
         .number-ball {
@@ -97,11 +101,11 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             color: white;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
             position: relative;
             user-select: none;
             touch-action: manipulation;
@@ -122,7 +126,7 @@
         .number-ball.selected {
             opacity: 0.7;
             transform: scale(0.9);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .number-ball.killed {
@@ -134,7 +138,7 @@
         .number-ball.selected::after {
             content: "✓";
             position: absolute;
-            font-size: 20px;
+            font-size: 24px;
             color: #00b894;
             font-weight: bold;
         }
@@ -142,32 +146,33 @@
         .number-ball.killed::after {
             content: "✕";
             position: absolute;
-            font-size: 20px;
+            font-size: 24px;
             color: #ff7675;
             font-weight: bold;
         }
         
         .zodiac-label {
-            font-size: 13px;
-            margin-top: 4px;
+            font-size: 16px;
+            margin-top: 6px;
             opacity: 0.9;
             font-weight: bold;
         }
         
         .control-section {
-            margin: 10px 0;
+            margin: 15px 0;
         }
         
         .control-header {
             display: flex;
-            justify-content:空间-between;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
         
         .counter {
-            font-size: 0.9rem;
+            font-size: 1.2rem;
             color: #2c3e50;
+            font-weight: 500;
         }
         
         .selected-count {
@@ -179,22 +184,22 @@
         }
         
         .control-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
         
         .control-btn {
-            flex: 1;
-            padding: 10px;
+            padding: 15px 8px;
             border: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            min-width: 100px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            min-width: 0;
+            touch-action: manipulation;
         }
         
         .clear-btn {
@@ -228,7 +233,7 @@
         }
         
         .control-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
         
         .control-btn.disabled {
@@ -238,20 +243,20 @@
         
         .animation-section {
             background: white;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 10px 0;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-            border: 2px solid #9b59b6;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 3px solid #9b59b6;
         }
         
         .animation-title {
-            font-size: 1rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             text-align: center;
-            padding-bottom: 6px;
-            border-bottom: 2px solid #9b59b6;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #9b59b6;
             color: #9b59b6;
         }
         
@@ -259,28 +264,28 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
         
         .timer {
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #2c3e50;
             text-align: center;
         }
         
         .timer-value {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: #e74c3c;
         }
         
         .progress-bar {
             width: 100%;
-            height: 8px;
+            height: 12px;
             background: #f0f0f0;
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
-            margin: 10px 0;
+            margin: 15px 0;
         }
         
         .progress-fill {
@@ -293,18 +298,18 @@
         .animation-groups {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
             width: 100%;
         }
         
         .animation-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
         
         .group-label-small {
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #2c3e50;
             text-align: center;
@@ -314,21 +319,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
         
         .animation-number {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: white;
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: all 0.1s ease;
         }
         
@@ -342,27 +347,27 @@
         }
         
         .comma {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #9b59b6;
         }
         
         .group-result-section {
             background: white;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 10px 0;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-            border: 2px solid #9b59b6;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 3px solid #9b59b6;
         }
         
         .group-result-title {
-            font-size: 1rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             text-align: center;
-            padding-bottom: 6px;
-            border-bottom: 2px solid #9b59b6;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #9b59b6;
             color: #9b59b6;
             display: flex;
             justify-content: space-between;
@@ -373,9 +378,9 @@
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
             border: none;
-            border-radius: 4px;
-            padding: 4px 8px;
-            font-size: 0.8rem;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 1rem;
             cursor: pointer;
         }
         
@@ -386,15 +391,15 @@
         .group-result {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
         
         .group-row {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 2px solid #eee;
         }
         
         .group-row:last-child {
@@ -404,40 +409,41 @@
         .group-label {
             font-weight: bold;
             color: #2c3e50;
-            min-width: 50px;
+            min-width: 70px;
+            font-size: 1.1rem;
         }
         
         .group-numbers {
             flex: 1;
-            padding: 8px;
+            padding: 12px;
             background: #f8f9fa;
-            border-radius: 5px;
+            border-radius: 8px;
             font-family: monospace;
-            font-size: 1rem;
+            font-size: 1.2rem;
             color: #2c3e50;
         }
         
         .lists-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 15px;
+            margin-top: 20px;
         }
         
         .list-box {
-            background: white;
-            border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+           背景: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
         
         .list-title {
-            font-size: 1rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             text-align: center;
-            padding-bottom: 6px;
-            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ddd;
         }
         
         .selected-list .list-title {
@@ -453,21 +459,30 @@
         .list-items {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            min-height: 80px;
-            padding: 8px 0;
+            gap: 8px;
+            min-height: 100px;
+            padding: 12px 0;
         }
         
         .list-number {
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            user-select: none;
+            touch-action: manipulation;
+        }
+        
+        .list-number:active {
+            transform: scale(0.95);
         }
         
         .empty-message {
@@ -475,32 +490,32 @@
             font-style: italic;
             text-align: center;
             width: 100%;
-            margin-top: 15px;
+            margin-top: 20px;
             font-size: 0.9rem;
         }
         
         .category-section {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .section-title {
-            font-size: 1rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             color: #2c3e50;
             display: flex;
             align-items: center;
         }
         
         .section-title i {
-            margin-right: 6px;
+            margin-right: 10px;
             color: #2980b9;
         }
         
         .category-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+            gap: 8px;
         }
         
         .category-buttons.tail-buttons {
@@ -516,16 +531,16 @@
         }
         
         .category-btn {
-            padding: 8px 4px;
+            padding: 12px 6px;
             border: none;
-            border-radius: 5px;
-            font-size: 0.8rem;
+            border-radius: 8px;
+            font-size: 1rem;
             background: #dfe6e9;
             color: #2d3436;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
         
         .category-btn:active {
@@ -558,75 +573,107 @@
         }
         
         .zodiac-chart {
-            margin-top: 15px;
-            padding: 15px;
+            margin-top: 20px;
+            padding: 20px;
             background: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
         
         .zodiac-chart-title {
-            font-size: 1.1rem;
+            font-size: 1.5rem;
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             text-align: center;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #ffa726;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #ffa726;
         }
         
         .zodiac-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 15px;
         }
         
         .zodiac-item {
-           背景: white;
-            border-radius: 6px;
-            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
         
         .zodiac-name {
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         
         .zodiac-conflict {
-            font-size: 0.8rem;
+            font-size: 1rem;
             color: #e74c3c;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
         
         .zodiac-numbers {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 6px;
         }
         
         .zodiac-number {
-            width: 25px;
-            height: 25px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: bold;
             color: white;
         }
         
         footer {
             text-align: center;
-            padding: 15px;
-            background: #2c3e50;
+            padding: 20px;
+           背景: #2c3e50;
             color: #ecf0f1;
-            margin-top: 15px;
-            font-size: 0.8rem;
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+        
+        /* iPhone 13 Pro Max 特殊优化 */
+        @media screen and (max-width: 430px) and (min-height: 800px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .number-ball {
+                font-size: 1.6rem;
+            }
+            
+            .zodiac-label {
+                font-size: 14px;
+            }
+            
+            .control-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .control-btn {
+                padding: 12px 6px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -658,7 +705,7 @@
                         <button class="control-btn copy-btn" id="copyBtn">复制结果</button>
                         <button class="control-btn copy-group-btn" id="copyGroupBtn">复制组号</button>
                         <button class="control-btn select-all-btn" id="selectAllBtn">全部选中</button>
-                        <button class="control-btn random-btn" id="randomBtn">随机排列</button>
+                        <button class="control-btn random-btn" id="randomBtn">随机分组</button>
                     </div>
                 </div>
                 
@@ -758,7 +805,7 @@
     </div>
 
     <script>
-        // 数字数据
+        // 数字数据 - 确保包含1-49所有号码
         const numbersData = Array.from({length: 49}, (_, i) => {
             const num = i + 1;
             let color = 'blue';
@@ -835,7 +882,7 @@
             renderZodiacChart();
             setupEventListeners();
             updateCounters();
-            console.log('挑码助手专业版初始化完成');
+            console.log('挑码助手专业版（修复号码显示问题）初始化完成');
         }
         
         // 加载本地存储的数据
@@ -865,11 +912,12 @@
             localStorage.setItem('generatedGroups', JSON.stringify(allGroups));
         }
         
-        // 渲染数字网格
+        // 渲染数字网格 - 确保所有1-49个号码都能正确显示
         function renderNumberGrid() {
             const numbersGrid = document.getElementById('numbersGrid');
             numbersGrid.innerHTML = '';
             
+            // 确保生成完整的1-49个号码
             numbersData.forEach(data => {
                 const numberBall = document.createElement('div');
                 numberBall.className = `number-ball ${data.color}`;
@@ -1038,13 +1086,68 @@
             document.getElementById('copyGroupBtn').addEventListener('click', copyGroups);
             document.getElementById('selectAllBtn').addEventListener('click', selectAll);
             document.getElementById('clearGroupsBtn').addEventListener('click', clearGroups);
-            document.getElementById('randomBtn').addEventListener('click', randomizeSelected);
+            document.getElementById('randomBtn').addEventListener('click', randomizeGroupSelected);
+            
+            // 已选号码列表点击事件 - 确保只有单击和双击功能
+            document.getElementById('selectedList').addEventListener('click', function(e) {
+                const listNumber = e.target.closest('.list-number');
+                if (!listNumber) return;
+                
+                const number = parseInt(listNumber.dataset.number);
+                const timerId = `list-selected-${number}`;
+                
+                if (clickTimers[timerId]) {
+                    clearTimeout(clickTimers[timerId]);
+                    // 双击：从已选列表中移除号码
+                    selectedNumbers = selectedNumbers.filter(n => n !== number);
+                    updateNumberGrid();
+                    updateLists();
+                    updateCounters();
+                    saveData();
+                    delete clickTimers[timerId];
+                } else {
+                    clickTimers[timerId] = setTimeout(() => {
+                        // 单击：不做任何操作（保持原样）
+                        delete clickTimers[timerId];
+                    }, 300);
+                }
+            });
+            
+            // 已杀号码列表点击事件 - 确保只有单击和双击功能
+            document.getElementById('killedList').addEventListener('click', function(e) {
+                const listNumber = e.target.closest('.list-number');
+                if (!listNumber) return;
+                
+                const number = parseInt(listNumber.dataset.number);
+                const timerId = `list-killed-${number}`;
+                
+                if (clickTimers[timerId]) {
+                    clearTimeout(clickTimers[timerId]);
+                    // 双击：从已杀列表中移除号码
+                    killedNumbers = killedNumbers.filter(n => n !== number);
+                    updateNumberGrid();
+                    updateLists();
+                    updateCounters();
+                    saveData();
+                    delete clickTimers[timerId];
+                } else {
+                    clickTimers[timerId] = setTimeout(() => {
+                        // 单击：不做任何操作（保持原样）
+                        delete clickTimers[timerId];
+                    }, 300);
+                }
+            });
         }
         
-        // 随机排列已选号码功能
-        function randomizeSelected() {
+        // 随机分组功能 - 将已选号码随机分成五组，每组五个号码
+        function randomizeGroupSelected() {
             if (selectedNumbers.length === 0) {
-                alert('请先选择号码再进行随机排列');
+                alert('请先选择号码再进行随机分组');
+                return;
+            }
+            
+            if (selectedNumbers.length < 25) {
+                alert('至少需要25个已选号码才能分成五组（每组5个号码）');
                 return;
             }
             
@@ -1055,17 +1158,30 @@
                 [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
             
-            // 更新已选号码数组
-            selectedNumbers = shuffled;
+            // 将随机排列的号码分成五组，每组五个号码
+            const fiveGroups = [];
+            for (let i = 0; i < 5; i++) {
+                const group = shuffled.slice(i * 5, (i + 1) * 5).sort((a, b) => a - b);
+                fiveGroups.push(group);
+            }
             
-            // 更新显示
-            updateNumberGrid();
-            updateLists();
-            updateCounters();
+            // 保存当前组号到所有组号列表中
+            fiveGroups.forEach(group => {
+                allGroups.push(group);
+            });
+            
+            // 更新组号显示
+            updateGroupDisplay();
+            
+            // 保存数据
             saveData();
             
-            // 显示随机排列结果
-            alert(`已选号码已随机排列:\n${selectedNumbers.join(', ')}`);
+            // 显示随机分组结果
+            let resultText = '随机分组完成（五组，每组五个号码）:\n';
+            fiveGroups.forEach((group, index) => {
+                resultText += `第${index+1}组: ${group.join(', ')}\n`;
+            });
+            alert(resultText);
         }
         
         // 处理数字单击
@@ -1184,24 +1300,20 @@
         function getNumbersByCategory(category, value) {
             switch(category) {
                 case 'zodiac':
-                    // 根据生肖返回对应数字
                     return numbersData
                         .filter(data => data.zodiac === value)
                         .map(data => data.num);
                 case 'tail':
-                    // 根据尾号返回对应数字
                     const tailNum = parseInt(value);
                     return numbersData
                         .filter(data => data.num % 10 === tailNum)
                         .map(data => data.num);
                 case 'head':
-                    // 根据头号返回对应数字
                     const headNum = parseInt(value);
                     return numbersData
                         .filter(data => Math.floor(data.num / 10) === headNum)
                         .map(data => data.num);
                 case 'property':
-                    // 根据属性返回对应数字
                     switch(value) {
                         case '红波':
                             return numbersData
@@ -1253,17 +1365,17 @@
             });
         }
         
-        // 更新列表显示
+        // 更新列表显示 - 已选号码按选择顺序显示，不排序
         function updateLists() {
             const selectedList = document.getElementById('selectedList');
             const killedList = document.getElementById('killedList');
             
-            // 更新已选列表
+            // 更新已选列表 - 按照选择顺序显示，不排序
             selectedList.innerHTML = '';
             if (selectedNumbers.length === 0) {
                 selectedList.innerHTML = '<div class="empty-message">暂无已选号码</div>';
             } else {
-                selectedNumbers.forEach(num => {
+                selectedNumbers.forEach(num => {  // 直接遍历，不排序
                     const listNumber = document.createElement('div');
                     listNumber.className = 'list-number';
                     
@@ -1285,12 +1397,12 @@
                 });
             }
             
-            // 更新已杀列表（强制灰色）
+            // 更新已杀列表（强制灰色）- 按照选择顺序显示
             killedList.innerHTML = '';
             if (killedNumbers.length === 0) {
                 killedList.innerHTML = '<div class="empty-message">暂无已杀号码</div>';
             } else {
-                killedNumbers.forEach(num => {
+                killedNumbers.forEach(num => {  // 直接遍历，不排序
                     const listNumber = document.createElement('div');
                     listNumber.className = 'list-number';
                     listNumber.style.background = '#7f8c8d';
@@ -1313,26 +1425,10 @@
             document.getElementById('remainingCount').textContent = remaining;
         }
         
-        // 从列表中移除数字
-        function removeFromList(listNumber, listType) {
-            const number = parseInt(listNumber.dataset.number);
-            
-            if (listType === 'selected') {
-                selectedNumbers = selectedNumbers.filter(n => n !== number);
-            } else if (listType === 'killed') {
-                killedNumbers = killedNumbers.filter(n => n !== number);
-            }
-            
-            updateNumberGrid();
-            updateLists();
-            updateCounters();
-            saveData();
-        }
-        
         // 生成五组号码动画
         function generateFiveGroups() {
             if (isAnimating) {
-                return; // 如果正在动画中，不执行
+                return;
             }
             
             if (selectedNumbers.length < 4) {
@@ -1428,7 +1524,7 @@
                 
                 // 更新五组号码的显示
                 for (let i = 0; i < 5; i++) {
-                    // 随机选择四个不同的数字 - 确保不会重复
+                    // 随机选择四个不同的数字（防重复）
                     const shuffled = [...selectedNumbers].sort(() => Math.random() - 0.5);
                     const selectedFour = [];
                     
@@ -1522,20 +1618,14 @@
         // 更新组号显示
         function updateGroupDisplay() {
             const groupResult = document.getElementById('groupResult');
-            
-            // 清空现有显示
             groupResult.innerHTML = '';
             
             if (allGroups.length === 0) {
-                // 如果没有组号，隐藏组号区域
                 document.getElementById('groupResultSection').style.display = 'none';
                 return;
             }
             
-            // 显示组号区域
             document.getElementById('groupResultSection').style.display = 'block';
-            
-            // 更新组号计数
             document.getElementById('groupCount').textContent = allGroups.length;
             
             // 显示所有组号（最新的在顶部）
@@ -1580,7 +1670,6 @@
                 })
                 .catch(err => {
                     console.error('复制失败: ', err);
-                    // 备用复制方法
                     const textArea = document.createElement('textarea');
                     textArea.value = groupsText;
                     document.body.appendChild(textArea);
@@ -1598,11 +1687,9 @@
         
         // 全部选中
         function selectAll() {
-            // 获取所有未被杀掉的号码
             const allNumbers = Array.from({length: 49}, (_, i) => i + 1);
             const availableNumbers = allNumbers.filter(num => !killedNumbers.includes(num));
             
-            // 将所有可用号码添加到已选列表
             availableNumbers.forEach(num => {
                 if (!selectedNumbers.includes(num)) {
                     selectedNumbers.push(num);
@@ -1639,8 +1726,8 @@
                 return;
             }
             
-            // 只复制已选号码，用逗号分隔
-            const numbersToCopy = selectedNumbers.sort((a, b) => a - b).join(', ');
+            // 复制时保持选择顺序，不排序
+            const numbersToCopy = selectedNumbers.join(', ');
             
             navigator.clipboard.writeText(numbersToCopy)
                 .then(() => {
@@ -1648,7 +1735,6 @@
                 })
                 .catch(err => {
                     console.error('复制失败: ', err);
-                    // 备用复制方法
                     const textArea = document.createElement('textarea');
                     textArea.value = numbersToCopy;
                     document.body.appendChild(textArea);
